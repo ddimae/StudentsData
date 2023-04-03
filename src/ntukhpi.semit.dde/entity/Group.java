@@ -1,4 +1,4 @@
-package classes;
+package entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,15 @@ public class Group {
     private String Language;
 
     private List<Student> StudentList;
+    private String string;
 
-    public Group(String groupName, String language, List<Student> studentList){
+    public Group(String groupName, String language, List<Student> studentList) {
         GroupName = groupName;
         Language = language;
         StudentList = studentList;
     }
 
-    public Group(String groupName){
+    public Group(String groupName) {
         GroupName = groupName;
         Language = "ua";
         StudentList = new ArrayList<>();
@@ -61,15 +62,14 @@ public class Group {
         StudentList.add(student);
     }
 
-    public int getGroup(){
+    public int getGroup() {
         return 0;
     }
 
     /**
-     *
      * @param group
      */
-    public void setGroup(int group){
+    public void setGroup(int group) {
 
     }
 
@@ -79,5 +79,13 @@ public class Group {
             System.out.println(student.getLastName() + " " + student.getFirstName() + " " + student.getMiddleName());
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        StudentList.stream().forEach((Student stud) -> sb.append(stud.toString()).append(System.lineSeparator()));
+        return sb.toString();
+    }
+
 
 }

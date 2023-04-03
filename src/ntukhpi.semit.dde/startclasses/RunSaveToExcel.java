@@ -1,7 +1,9 @@
-import classes.Group;
-import classes.Student;
+package startclasses;
+
+import entity.Group;
+import entity.Student;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -9,7 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Main {
+public class RunSaveToExcel {
     public static void main(String[] args) throws IOException {
         JFileChooser fileChooser = new JFileChooser(); //створення об'єкту JFileChooser
 
@@ -33,7 +35,8 @@ public class Main {
                 group.addStudent(student);
             }
 
-            group.printStudents();
+            //group.printStudents();
+            System.out.println(group);
 
             workbook.close();
             inputStream.close();

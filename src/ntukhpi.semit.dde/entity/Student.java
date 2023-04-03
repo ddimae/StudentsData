@@ -1,4 +1,4 @@
-package classes;
+package entity;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -101,9 +101,9 @@ public class Student {
 
     public Student(Row row) {
         String[] fullNameArray = row.getCell(1).getStringCellValue().split(" ");
-        FirstName = fullNameArray[0];
-        LastName = fullNameArray[2];
-        MiddleName = fullNameArray[1];
+        FirstName = fullNameArray[1];
+        LastName = fullNameArray[0];
+        MiddleName = fullNameArray[2];
     }
 
     /**
@@ -114,4 +114,8 @@ public class Student {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "" +LastName +" "+FirstName +" "+ MiddleName;
+    }
 }
