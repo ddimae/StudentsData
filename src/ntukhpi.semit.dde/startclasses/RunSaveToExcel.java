@@ -5,42 +5,46 @@ import entity.Student;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+import static files.ExcelUtilities.saveToWBExcel;
+import static files.XMLUtils.readFromXML;
 
 public class RunSaveToExcel {
     public static void main(String[] args) throws IOException {
-        JFileChooser fileChooser = new JFileChooser(); //створення об'єкту JFileChooser
+//            Path path = Paths.get("src/КН-221а.xlsx"); //отримуємо шлях до файлу
+//
+//            FileInputStream inputStream = new FileInputStream(path.toFile());
+//            Workbook workbook = new XSSFWorkbook(inputStream);
+//            Sheet sheet = workbook.getSheetAt(0); // отримуємо перший аркуш
+//
+//            String fileName = path.getFileName().toString();
+//
+//            Group group = new Group(fileName.substring(0, fileName.length() - 5));
+//
+//            for (Row row : sheet) {
+//                Student student = new Student(row);
+//                group.addStudent(student);
+//            }
 
-        // Задаємо фільтр для вибору файлу з певним розширенням
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("xlsx", "xlsx");
-        fileChooser.setFileFilter(filter);
-
-        int returnValue = fileChooser.showOpenDialog(null); //відображаємо діалог вибору файлу
-
-        if (returnValue == JFileChooser.APPROVE_OPTION) { //якщо користувач обрав файл
-            File file = fileChooser.getSelectedFile(); //отримуємо файл
-
-            FileInputStream inputStream = new FileInputStream(file);
-            Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheetAt(0); // отримуємо перший аркуш
-
-            Group group = new Group(file.getName());
-
-            for (Row row : sheet) {
-                Student student = new Student(row);
-                group.addStudent(student);
-            }
-
-            //group.printStudents();
-            System.out.println(group);
-
-            workbook.close();
-            inputStream.close();
-
+        List<Student> studentList = null;
+        try {
+            studentList = readFromXML("src/КН-221а.xml");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        System.out.println(studentList);
+//
+//            workbook.close();
+//            inputStream.close();
+
+//            saveToWBExcel(group.getGroupName(), group.getStudentList());
+
     }
+
 }

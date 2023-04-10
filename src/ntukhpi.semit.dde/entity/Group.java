@@ -10,82 +10,51 @@ import java.util.List;
  */
 public class Group {
 
-    private String GroupName;
-    private String Language;
-
-    private List<Student> StudentList;
-    private String string;
-
-    public Group(String groupName, String language, List<Student> studentList) {
-        GroupName = groupName;
-        Language = language;
-        StudentList = studentList;
-    }
-
-    public Group(String groupName) {
-        GroupName = groupName;
-        Language = "ua";
-        StudentList = new ArrayList<>();
-    }
-
-    public Group() {
-        GroupName = "KN-222C";
-        Language = "ua";
-        StudentList = new ArrayList<>();
-    }
-
-    public void setGroupName(String groupName) {
-        GroupName = groupName;
-    }
-
-    public void setLanguage(String language) {
-        Language = language;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        StudentList = studentList;
-    }
+    private String groupName;
+    private String language;
+    private List<Student> studentList;
 
     public String getGroupName() {
-        return GroupName;
-    }
-
-    public String getLanguage() {
-        return Language;
+        return groupName;
     }
 
     public List<Student> getStudentList() {
-        return StudentList;
+        return studentList;
     }
 
-    public void addStudent(Student student) {
-        StudentList.add(student);
+    public Group(String groupName, String language, List<Student> studentList) {
+        this.groupName = groupName;
+        this.language = language;
+        this.studentList = studentList;
     }
 
-    public int getGroup() {
-        return 0;
+    public Group(String groupName) {
+        this.groupName = groupName;
+        language = "ua";
+        studentList = new ArrayList<>();
     }
 
-    /**
-     * @param group
-     */
-    public void setGroup(int group) {
-
-    }
-
-    public void printStudents() {
-        System.out.println("Group name: " + GroupName + "\n");
-        for (Student student : StudentList) {
-            System.out.println(student.getLastName() + " " + student.getFirstName() + " " + student.getMiddleName());
-        }
+    public Group() {
+        groupName = "KN-222C";
+        language = "ua";
+        studentList = new ArrayList<>();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        StudentList.stream().forEach((Student stud) -> sb.append(stud.toString()).append(System.lineSeparator()));
+        studentList.stream().forEach((Student stud) -> sb.append(stud.toString()).append(System.lineSeparator()));
         return sb.toString();
     }
 
+    public void printStudents() {
+        System.out.println("Group name: " + groupName + "\n");
+        for (Student student : studentList) {
+            System.out.println(student.getLastName() + " " + student.getFirstName() + " " + student.getMiddleName());
+        }
+    }
 
+    public void addStudent(Student student) {
+        studentList.add(student);
+    }
 }
