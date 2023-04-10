@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class ExcelUtilities {
-    public static void saveToWBExcel(String filename, List<Student> studentList) throws IOException {
+    public static String saveToWBExcel(String filename, List<Student> studentList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet(filename);
 
@@ -42,6 +42,6 @@ public class ExcelUtilities {
 
         workbook.close();
 
-        System.out.println("File saved successfully to " + filePath.toAbsolutePath());
+        return filePath.toAbsolutePath().toString();
     }
 }

@@ -46,7 +46,7 @@ public class XMLUtils {
         return studentList;
     }
 
-    public static void writeToXML(String filePath, List<Student> studentList) throws Exception {
+    public static String writeToXML(String filePath, List<Student> studentList) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -87,7 +87,7 @@ public class XMLUtils {
         StreamResult result = new StreamResult(new File(filePath + ".xml"));
         transformer.transform(source, result);
 
-        System.out.println("File saved successfully to " + filePath + ".xml");
+        return filePath + ".xml";
     }
 
 
