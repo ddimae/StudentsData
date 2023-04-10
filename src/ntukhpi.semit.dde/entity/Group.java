@@ -22,6 +22,10 @@ public class Group {
         return studentList;
     }
 
+    public void setStudentList(List<Student> studentList){
+        this.studentList = studentList;
+    }
+
     public Group(String groupName, String language, List<Student> studentList) {
         this.groupName = groupName;
         this.language = language;
@@ -57,4 +61,6 @@ public class Group {
     public void addStudent(Student student) {
         studentList.add(student);
     }
+
+
 }

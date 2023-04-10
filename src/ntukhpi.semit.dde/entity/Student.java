@@ -53,31 +53,25 @@ public class Student {
         this.scholarship = scholarship;
     }
 
-    public Student(Row row) {
-        String[] fullNameArray = row.getCell(1).getStringCellValue().split(" ");
-        firstName = fullNameArray[1];
-        lastName = fullNameArray[0];
-        middleName = fullNameArray[2];
-        // generate a random date of birth between January 1st, 2004 and December 31st, 2004
-        dateOfBirth = LocalDate.of(2004, Month.JANUARY, 1)
-                .plusDays((long) (Math.random() * 365));
-
-    }
-
-    public Student(String firstName, String lastName, String middleName, LocalDate dateOfBirth) {
+    public Student(String lastName, String firstName, String middleName, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Student(){
+    public Student(Row row) {
+        this(row.getCell(1).getStringCellValue());
+    }
 
+    public Student(String fullName){
+        this(fullName.split(" ")[0], fullName.split(" ")[1], fullName.split(" ")[2], LocalDate.of(2004, Month.JANUARY, 1)
+                .plusDays((long) (Math.random() * 365)));
     }
 
     @Override
     public String toString() {
-        return "" + lastName +" "+firstName +" "+ middleName + " " + dateOfBirth.toString();
+        return "" + lastName +" " +firstName +" "+ middleName + " " + dateOfBirth.toString();
     }
 
 }

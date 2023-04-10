@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <students>
     <student>
-        <firstName>John</firstName>
-        <lastName>Doe</lastName>
-        <middleName>Smith</middleName>
-        <dateOfBirth>2000-01-01</dateOfBirth>
+        <fullName>БОРИСЕВИЧ Алекс Сергійович</fullName>
     </student>
     <student>
-        <firstName>Jane</firstName>
-        <lastName>Smith</lastName>
-        <middleName>Doe</middleName>
-        <dateOfBirth>1999-01-01</dateOfBirth>
+        <fullName>ГЛАДЧЕНКО Владислав Сергійович</fullName>
+    </student>
+    <student>
+        <fullName>ГОЛОВКО Ярослав Тарасович</fullName>
+    </student>
+    <student>
+        <fullName>КОВАЛЬОВ Євген Олександрович</fullName>
+    </student>
+    <student>
+        <fullName>КОСТОМАРОВ Євгеній Ігорович</fullName>
+    </student>
+    <student>
+        <fullName>КУЛАК Анастасія Олександрівна</fullName>
     </student>
 </students>
