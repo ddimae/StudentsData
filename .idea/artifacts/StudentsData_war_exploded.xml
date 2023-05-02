@@ -1,0 +1,59 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="StudentsData:war exploded">
+    <output-path>$PROJECT_DIR$/target/StudentsData-1.0-SNAPSHOT</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>StudentsData</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="StudentsData" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.apache.poi:poi:5.2.2" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.15" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.4" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-math3:3.6.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.11.0" />
+          <element id="library" level="project" name="Maven: com.zaxxer:SparseBitSet:1.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.17.2" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:5.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-lite:5.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:5.0.3" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-compress:1.21" />
+          <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.07" />
+          <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.32" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.10.1" />
+          <element id="library" level="project" name="Maven: jakarta.persistence:jakarta.persistence-api:3.1.0" />
+          <element id="library" level="project" name="Maven: org.hibernate.orm:hibernate-core:6.1.7.Final" />
+          <element id="library" level="project" name="Maven: jakarta.transaction:jakarta.transaction-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.4.3.Final" />
+          <element id="library" level="project" name="Maven: org.hibernate.common:hibernate-commons-annotations:6.0.6.Final" />
+          <element id="library" level="project" name="Maven: org.jboss:jandex:2.4.2.Final" />
+          <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.5.1" />
+          <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.12.18" />
+          <element id="library" level="project" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:3.0.1" />
+          <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
+          <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-runtime:3.0.2" />
+          <element id="library" level="project" name="Maven: org.glassfish.jaxb:jaxb-core:3.0.2" />
+          <element id="library" level="project" name="Maven: org.glassfish.jaxb:txw2:3.0.2" />
+          <element id="library" level="project" name="Maven: com.sun.istack:istack-commons-runtime:4.0.1" />
+          <element id="library" level="project" name="Maven: jakarta.inject:jakarta.inject-api:2.0.0" />
+          <element id="library" level="project" name="Maven: org.antlr:antlr4-runtime:4.10.1" />
+          <element id="library" level="project" name="Maven: org.hibernate.validator:hibernate-validator:6.2.0.Final" />
+          <element id="library" level="project" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/StudentsData-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="StudentsData/web/Web" />
+    </root>
+  </artifact>
+</component>
