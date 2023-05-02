@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- JDBC Database connection settings -->
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/students_data?serverTimezone=Europe/Kiev&amp;useSSL=false</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+		<!-- Select our SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
+		<!-- Echo the SQL to stdout -->
+		<property name="show_sql">true</property>
+		
+		<!-- Теги маппинга классов -->
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.AcademicGroup"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Person"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Student"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Parent"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Teacher"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Contact"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.PhoneNumber"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Email"/>
+		<mapping class="ntukhpi.semit.dde.studentsdata.entity.Address"/>
+		<!--<mapping resource="ntukhpi/semit/dde/webapphbn/model/Employee.hbm.xml"></mapping>-->
+
+	</session-factory>
+</hibernate-configuration>
