@@ -4,47 +4,44 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import ntukhpi.semit.dde.studentsdata.entity.Person;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
+import ntukhpi.semit.dde.studentsdata.entity.Email;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DAOPhonesHBN implements Idao<PhoneNumber> {
+public class DAOEmailsHBN implements Idao<Email> {
 
     @Override
-    public List<PhoneNumber> getAllList() {
+    public List<Email> getAllList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<PhoneNumber> cq = cb.createQuery(PhoneNumber.class);
-        Root<PhoneNumber> rootEntry = cq.from(PhoneNumber.class);
-        CriteriaQuery<PhoneNumber> all = cq.select(rootEntry);
-        TypedQuery<PhoneNumber> allQuery = session.createQuery(all);
+        CriteriaQuery<Email> cq = cb.createQuery(Email.class);
+        Root<Email> rootEntry = cq.from(Email.class);
+        CriteriaQuery<Email> all = cq.select(rootEntry);
+        TypedQuery<Email> allQuery = session.createQuery(all);
         return allQuery.getResultList();
     }
 
     @Override
-    public PhoneNumber findById(Long id) {
-        return (PhoneNumber) DAOObjects.daoContact.findById(id);
+    public Email findById(Long id) {
+        return (Email) DAOObjects.daoContact.findById(id);
     }
 
     @Override
-    public PhoneNumber findByKey(PhoneNumber template) {
-        PhoneNumber entityInDB = null;
-        List<PhoneNumber> results = null;
+    public Email findByKey(Email template) {
+        Email entityInDB = null;
+        List<Email> results = null;
         //Find in DB by id
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             //New approach
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<PhoneNumber> cr = cb.createQuery(PhoneNumber.class);
-            Root<PhoneNumber> root = cr.from(PhoneNumber.class);
-            cr.select(root).where(cb.equal(root.get("phoneNumber"), template.getPhoneNumber()));
-            Query<PhoneNumber> query = session.createQuery(cr);
+            CriteriaQuery<Email> cr = cb.createQuery(Email.class);
+            Root<Email> root = cr.from(Email.class);
+            cr.select(root).where(cb.equal(root.get("email"), template.getEmail()));
+            Query<Email> query = session.createQuery(cr);
             results = query.getResultList();
             if (!results.isEmpty()) {
                 entityInDB = results.get(0);
@@ -56,17 +53,20 @@ public class DAOPhonesHBN implements Idao<PhoneNumber> {
     }
 
     @Override
-    public boolean insert(PhoneNumber entityToSave) {
+    public boolean insert(Email entityToSave) {
         return DAOObjects.daoContact.insert(entityToSave);
     }
 
     @Override
-    public boolean update(Long id, PhoneNumber entityToUpdate) {
-        return DAOObjects.daoContact.update(id,entityToUpdate);
+    public boolean update(Long id, Email entityToUpdate) {
+        return DAOObjects.daoContact.update(id, entityToUpdate);
     }
 
     @Override
     public boolean delete(Long id) {
         return DAOObjects.daoContact.delete(id);
     }
+
 }
+
+

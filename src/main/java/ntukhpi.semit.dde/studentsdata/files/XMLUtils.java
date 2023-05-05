@@ -19,6 +19,38 @@ import java.util.List;
 
 public class XMLUtils {
     public static List<Student> readFromXML(String filePath) throws Exception {
+        //System.out.println("XMLUtils#readFromXML: "+filePath);
+
+        List<Student> studentList = new ArrayList<>();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document document = builder.parse(new File(filePath));
+        document.getDocumentElement().normalize();
+
+        NodeList nodeList = document.getElementsByTagName("student");
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+
+                String fullName = element.getElementsByTagName("fullName").item(0).getTextContent();
+
+
+                Student student = new Student(fullName);
+                studentList.add(student);
+            }
+        }
+
+        return studentList;
+    }
+
+    public static List<Student> readFromXMLFull(String filePath) throws Exception {
+        //System.out.println("XMLUtils#readFromXML: "+filePath);
+
         List<Student> studentList = new ArrayList<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -84,7 +116,7 @@ public class XMLUtils {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File(filePath + ".xml"));
+        StreamResult result = new StreamResult(new File("results/"+filePath + ".xml"));
         transformer.transform(source, result);
 
         return filePath + ".xml";

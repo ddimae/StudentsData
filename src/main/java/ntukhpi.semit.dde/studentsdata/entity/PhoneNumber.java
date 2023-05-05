@@ -15,14 +15,20 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class PhoneNumber extends Contact {
-    @Column(name = "email", nullable=false, unique=true, length = 12)
+    @Column(name = "phone_number", nullable=false, unique=true, length = 12)
     @NotNull
     private String phoneNumber;
 
     public PhoneNumber(boolean isActive, boolean isPrior, Person owner, String phoneNumber) {
         super(isActive, isPrior, owner);
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PHONE: ");
+        sb.append(phoneNumber).append(super.toString());
+        return sb.toString();
     }
 }

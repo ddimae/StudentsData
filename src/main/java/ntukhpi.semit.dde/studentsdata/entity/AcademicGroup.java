@@ -43,7 +43,7 @@ public class AcademicGroup {
     @NotNull
     private Language language;
 
-    @OneToMany(fetch=FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "academicGroup")
     private Set<Student> studentsList;
 
     @OneToOne(fetch=FetchType.LAZY)
@@ -64,6 +64,11 @@ public class AcademicGroup {
         curatorTeacher = null;
     }
 
+    public AcademicGroup(String groupName, Language language) {
+        this.groupName = groupName;
+        this.language = language;
+    }
+
     public void addStudent(Student student) {
         studentsList.add(student);
     }
@@ -75,7 +80,7 @@ public class AcademicGroup {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append(System.lineSeparator());
+        //sb.append(System.lineSeparator());
         sb.append(groupName).append(" (");
         sb.append(language).append(")");
         return sb.toString();
@@ -98,8 +103,6 @@ public class AcademicGroup {
             System.out.println(student.getLastName() + " " + student.getFirstName() + " " + student.getMiddleName());
         }
     }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

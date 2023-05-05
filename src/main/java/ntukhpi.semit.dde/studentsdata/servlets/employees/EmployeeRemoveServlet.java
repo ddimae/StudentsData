@@ -21,7 +21,7 @@ public class EmployeeRemoveServlet extends HttpServlet {
 //        String idStr = request.getParameter("id");
 //        Long idDel = Long.parseLong(idStr);
 //        System.out.println("id = " + idDel);
-//        Employee emplToDelete = DAOEmployeesHBN.getEmployeeById(idDel);
+//        Employee emplToDelete = DAOStudentsHBN.getEmployeeById(idDel);
 //        System.out.println(emplToDelete);
 //        request.setAttribute("employee", emplToDelete);
 //        //Instance of object after updating can be changed
@@ -41,7 +41,7 @@ public class EmployeeRemoveServlet extends HttpServlet {
 //        String idDelStr = request.getParameter("idDel");
 //        Long idDel = Long.parseLong(idDelStr);
 //        //Call Update
-//        boolean deleteRes = DAOEmployeesHBN.deleteByID(idDel);
+//        boolean deleteRes = DAOStudentsHBN.deleteByID(idDel);
 //        if (deleteRes) {
 //            //back to listEmployees
 //            String path = request.getContextPath() + "/employees";

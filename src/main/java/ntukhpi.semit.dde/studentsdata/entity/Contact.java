@@ -17,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public abstract class Contact { //
 
     @Id
@@ -27,11 +26,11 @@ public abstract class Contact { //
 
     @Column(name = "active",nullable = false)
     @ColumnDefault(value="TRUE")
-    private boolean isActive = true;
+    private boolean isActive;
 
     @Column(name = "prior",nullable = false)
     @ColumnDefault(value="FALSE")
-    private boolean isPrior = false;
+    private boolean isPrior;
 
     public Contact(boolean isActive, boolean isPrior, Person owner) {
         this.isActive = isActive;
@@ -44,8 +43,12 @@ public abstract class Contact { //
     private Person owner;
 
 
-
-
-
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder(" (");
+        sb.append(isActive?"Активний":"Неактивний");
+        sb.append(isPrior?",Основний":"");
+        sb.append(')');
+        return sb.toString();
+    }
 }

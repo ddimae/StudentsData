@@ -50,7 +50,7 @@ public class EmployeeAddServlet extends HttpServlet {
 //            requestDispatcher.forward(request, response);
 //        } else {
 //            //Call Insert
-//            boolean insertRes = DAOEmployeesHBN.insert(empl);
+//            boolean insertRes = DAOStudentsHBN.insert(empl);
 //            if (insertRes) {
 //                //back to listEmployees
 //                String path = request.getContextPath() + "/employees";

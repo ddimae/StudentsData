@@ -25,13 +25,10 @@ public class Email extends Contact {
         this.email = email;
     }
 
-
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Email{");
-        sb.append("email='").append(email).append('\'');
-        sb.append('}');
-        sb.append(" - ").append(super.getOwner().toString());
+        final StringBuilder sb = new StringBuilder("EMAIL: ");
+        sb.append(email).append(super.toString());
         return sb.toString();
     }
 }

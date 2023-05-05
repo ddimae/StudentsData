@@ -17,7 +17,7 @@ public class EmployeeAllServlet extends HttpServlet {
 //    @Override
 //    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        System.out.println("EmployeeAllServlet#doGet");
-//        List<Employee> mylist = DAOEmployeesHBN.getEmployeeList();
+//        List<Employee> mylist = DAOStudentsHBN.getEmployeeList();
 //        //EmployeeList mylist = new EmployeeList(5);
 //        request.setAttribute("employees", mylist);
 //        String path = "/views/employees/employees.jsp";

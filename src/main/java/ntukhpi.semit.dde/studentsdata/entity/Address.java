@@ -1,6 +1,5 @@
 package ntukhpi.semit.dde.studentsdata.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,14 +35,14 @@ public class Address {
     @MapKeyJoinColumn(name = "id_owner")
     @Column(name = "current", nullable = false)
     @ColumnDefault(value = "FALSE")
-    private Map<Person, Boolean> owners = new HashMap<>();
-
+	private Map<Person, Boolean> owners;
 
     public Address(String country, String region, String city, String address) {
         this.country = country;
         this.region = region;
         this.city = city;
         this.address = address;
+        owners = new HashMap<>();
     }
 
 

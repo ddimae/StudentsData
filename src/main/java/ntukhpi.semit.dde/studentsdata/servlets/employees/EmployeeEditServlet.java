@@ -20,7 +20,7 @@ public class EmployeeEditServlet extends HttpServlet {
 //        String idStr = request.getParameter("id");
 //        Long id = Long.parseLong(idStr);
 //        System.out.println("id = "+ id);
-//        Employee emplToEdit = DAOEmployeesHBN.getEmployeeById(id);
+//        Employee emplToEdit = DAOStudentsHBN.getEmployeeById(id);
 //        System.out.println(emplToEdit);
 //        request.setAttribute("error",null);
 //        request.setAttribute("employee",emplToEdit);
@@ -63,7 +63,7 @@ public class EmployeeEditServlet extends HttpServlet {
 //            requestDispatcher.forward(request, response);
 //        } else {
 //            //Call Update
-//            boolean updateRes = DAOEmployeesHBN.update(id, emplForUdate);
+//            boolean updateRes = DAOStudentsHBN.update(id, emplForUdate);
 //            if (updateRes) {
 //                //back to listEmployees
 //                String path = request.getContextPath() + "/employees";

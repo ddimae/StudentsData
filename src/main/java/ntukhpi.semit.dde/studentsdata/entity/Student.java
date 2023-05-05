@@ -8,6 +8,7 @@ import ntukhpi.semit.dde.studentsdata.utils.KinshipDegree;
 import org.apache.poi.ss.usermodel.Row;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collections;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 
 @Entity
-@Table(name="students")
+@Table(name="students",uniqueConstraints = @UniqueConstraint(columnNames = {"sname", "fname","pname","birthday"}))
 @NoArgsConstructor
 @Getter
 @Setter
@@ -34,25 +35,36 @@ public class Student extends Person {
     @ColumnDefault(value="FALSE")
     private boolean isTakeScholarship;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academic_group_id")
+    AcademicGroup academicGroup;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "students_parents", joinColumns = @JoinColumn(name = "id_parent"))
     @MapKeyJoinColumn(name = "id_student")
     @Column(name = "kinship_degree", nullable = false)
-    private Map<Parent, KinshipDegree> parents = new HashMap<>();
+	private Map<Parent, KinshipDegree> parents;
 
     //Constructors
-    public Student(String lastName, String firstName, String middleName, LocalDate dateOfBirth) {
+    public Student(@NotNull String lastName, String firstName, String middleName) {
+        super(lastName, firstName, middleName);
+    }
+
+    public Student(@NotNull String lastName, String firstName, String middleName, LocalDate dateOfBirth) {
         super(lastName,firstName,middleName,dateOfBirth);
+        parents = new HashMap<>();
     }
 
     public Student(String lastName, String firstName, String middleName, String dateOfBirthStr) {
         super(lastName, firstName, middleName, dateOfBirthStr);
+        parents = new HashMap<>();
     }
 
-    public Student(LocalDate dateOfBirth, String firstName, boolean isContract, boolean isHead, String lastName, String middleName, boolean scholarship) {
+    public Student(String lastName, String firstName, String middleName, LocalDate dateOfBirth, boolean isContract, boolean scholarship) {
         super(lastName,firstName,middleName,dateOfBirth);
         this.isContract = isContract;
         this.isTakeScholarship = scholarship;
+        parents = new HashMap<>();
     }
 
     //for parents
@@ -84,6 +96,15 @@ public class Student extends Person {
         } else {
             parents.entrySet().stream().forEach(e->sb.append(System.lineSeparator())
                     .append(e.getValue()).append(" ").append(e.getKey().toString()));
+        }
+        return sb.toString();
+
+    }
+
+    public String showInfoWithGroup(){
+        StringBuilder sb = new StringBuilder(super.toString());
+        if (academicGroup!= null) {
+            sb.append(" (").append(academicGroup.toString()).append(")");
         }
         return sb.toString();
 

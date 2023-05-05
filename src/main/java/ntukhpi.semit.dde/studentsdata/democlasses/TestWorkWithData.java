@@ -1,6 +1,13 @@
 package ntukhpi.semit.dde.studentsdata.democlasses;
 
-import ntukhpi.semit.dde.studentsdata.entity.*;
+import ntukhpi.semit.dde.studentsdata.entity.Student;
+import ntukhpi.semit.dde.studentsdata.entity.Address;
+import ntukhpi.semit.dde.studentsdata.entity.Parent;
+import ntukhpi.semit.dde.studentsdata.entity.Teacher;
+import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
+import ntukhpi.semit.dde.studentsdata.entity.Contact;
+import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
+import ntukhpi.semit.dde.studentsdata.entity.Email;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import ntukhpi.semit.dde.studentsdata.utils.KinshipDegree;
 import org.hibernate.Session;
@@ -15,6 +22,9 @@ public class TestWorkWithData {
         Student s2 = new Student("Sak", "Iurij", "Ivanovich", "14.05.2005");
         Student s3 = new Student("Somov", "Denis", "Artemovych", "12.09.2004");
         Student s4 = new Student("Melnik", "Daria", "Artemovna", "13.03.2005");
+        Student s5 = new Student("Melnikova", "Daria", "Artemovna");
+        Student s6 = new Student("Усамма", "Баркейн", null);
+        Student s7 = new Student("Хо Вєет Конг", "", "");
         System.out.println(s1);
         System.out.println(s2);
         System.out.println(s3);
@@ -41,6 +51,9 @@ public class TestWorkWithData {
             session.persist(s4);
             session.persist(p3);
             session.persist(t);
+            session.persist(s5);
+            session.persist(s6);
+            session.persist(s7);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -51,7 +64,7 @@ public class TestWorkWithData {
         }
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             List<Student> myList = session.createQuery("from Student", Student.class).list();
-            myList.stream().forEach((s) -> {
+            myList.forEach((s) -> {
                 System.out.println(s);
                 System.out.println(s.showParents());
             });
@@ -64,24 +77,43 @@ public class TestWorkWithData {
         AcademicGroup gr4 = new AcademicGroup("KN222s");
 
         gr1.addStudent(s1);
+        s1.setAcademicGroup(gr1);
         gr1.addStudent(s4);
+        s4.setAcademicGroup(gr1);
         gr1.setHeadStudent(s1);
         gr1.setCuratorTeacher(t);
         gr2.addStudent(s2);
+        s2.setAcademicGroup(gr2);
         gr2.addStudent(s3);
-        gr1.setHeadStudent(s3);
+        s3.setAcademicGroup(gr2);
+        gr2.setHeadStudent(s3);
         gr2.setCuratorTeacher(t);
         gr4.setCuratorTeacher(t);
+        gr3.addStudent(s5);
+        s5.setAcademicGroup(gr3);
+        gr3.addStudent(s6);
+        s6.setAcademicGroup(gr3);
+        gr3.setHeadStudent(s6);
+        gr4.addStudent(s7);
+        s7.setAcademicGroup(gr4);
+        gr4.setHeadStudent(s7);
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             System.out.println("\n\nHIBERNATE create group!!!");
             session.persist(gr1);
             session.persist(gr2);
             session.persist(gr3);
             session.persist(gr4);
+            session.update(s1);
+            session.update(s2);
+            session.update(s3);
+            session.update(s4);
+            session.update(s5);
+            session.update(s6);
+            session.update(s7);
             tx = session.beginTransaction();
             tx.commit();
             List<AcademicGroup> myList = session.createQuery("from AcademicGroup", AcademicGroup.class).list();
-            myList.stream().forEach((academicGroup) -> System.out.println(academicGroup.toStringWithGrouplist()));//.toStringWithGrouplist()
+            myList.forEach((academicGroup) -> System.out.println(academicGroup.toStringWithGrouplist()));//.toStringWithGrouplist()
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -119,7 +151,7 @@ public class TestWorkWithData {
             session.persist(a6);
             tx.commit();
             List<Address> myList = session.createQuery("from Address", Address.class).list();
-            myList.stream().forEach((address) -> System.out.println(address.toStringWithOwners()));//
+            myList.forEach((address) -> System.out.println(address.toStringWithOwners()));//
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -144,7 +176,7 @@ public class TestWorkWithData {
             session.persist(email3);
             tx.commit();
             List<Contact>  myList = session.createQuery("from Contact", Contact.class).list();
-            myList.stream().forEach((contact) -> System.out.println(contact.toString()));//
+            myList.forEach((contact) -> System.out.println(contact.toString()));//
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();

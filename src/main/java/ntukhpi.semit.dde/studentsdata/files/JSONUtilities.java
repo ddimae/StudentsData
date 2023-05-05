@@ -13,13 +13,13 @@ import ntukhpi.semit.dde.studentsdata.entity.Student;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class JSONUtilities {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
-    public static List<Student> readFromJSON(String filePath) throws IOException {
+    public static Set<Student> readFromJSON(String filePath) throws IOException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .setPrettyPrinting()
@@ -27,7 +27,7 @@ public class JSONUtilities {
 
         try (Reader reader = new FileReader(filePath)) {
             Student[] students = gson.fromJson(reader, Student[].class);
-            return List.of(students);
+            return Set.of(students);
         } catch (JsonSyntaxException e) {
             throw new IOException("Invalid JSON syntax", e);
         } catch (FileNotFoundException e) {
@@ -43,7 +43,7 @@ public class JSONUtilities {
                 .setPrettyPrinting()
                 .create();
 
-        try (Writer writer = new FileWriter(filePath + ".json")) {
+        try (Writer writer = new FileWriter("results/"+filePath + ".json")) {
             gson.toJson(studentList, writer);
         } catch (JsonIOException e) {
             throw new IOException("Error writing to JSON file", e);
