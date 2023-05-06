@@ -66,7 +66,14 @@ public class DAOContactsHBN implements Idao<Contact> {
     public boolean insert(Contact entityToSave) {
         Transaction transaction = null;
         boolean insertOK = false;
+        // Find object with key field specified in entityToSave in DB
+        // Це потрібно, тому що на рівні СКБД індекс спрацьовує тільки на основі всіх заповнених полів
+        Contact entityToSaveInDB = findByKey(entityToSave);
+        if (entityToSaveInDB!= null) {
+            return false;
+        }
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
             // start a transaction
             transaction = session.beginTransaction();
             //Find owner by id

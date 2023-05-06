@@ -80,6 +80,7 @@ public class Student extends Person {
         parents.remove(parent);
     }
 
+    //for parsing
     public Student(Row row) {
         this(row.getCell(1).getStringCellValue());
     }
@@ -106,10 +107,8 @@ public class Student extends Person {
         if (academicGroup!= null) {
             sb.append(" (").append(academicGroup.toString()).append(")");
         }
+        sb.append(super.contactsPersonToString());
         return sb.toString();
-
     }
-
-
 
 }

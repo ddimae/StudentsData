@@ -5,6 +5,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
+import ntukhpi.semit.dde.studentsdata.entity.Contact;
+import ntukhpi.semit.dde.studentsdata.entity.Student;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -156,6 +158,40 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
         }
         return deleteOK;
     }
+
+    public boolean saveAcademicGroupToDB(AcademicGroup group) {
+
+        boolean flOK = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            try {
+                DAOObjects.daoAcademicGroup.insert(group);
+            } catch (Exception e) {
+                System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be AcademicGroup already in DB");
+            }
+
+            for (Student stud : group.getStudentsList()) {
+                try {
+                    DAOObjects.daoStudent.insert(stud);
+                } catch (Exception e){
+                    System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be Student already in DB");
+                }
+
+            }
+            for (Student stud : group.getStudentsList()) {
+                for (Contact contact: stud.getContacts()) {
+                    try {
+                        DAOObjects.daoContact.insert(contact);
+                    } catch (Exception e){
+                        System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be Contact already in DB");
+                    }
+
+                }
+            }
+
+        }
+        return flOK;
+    }
+
 }
 
 

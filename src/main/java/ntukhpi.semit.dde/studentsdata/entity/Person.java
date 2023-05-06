@@ -113,6 +113,17 @@ public abstract class Person { //
                 (dateOfBirth!=null?" " + dateOfBirth.format(Formats.FORMAT_DATE_UA):"");
     }
 
+    public String contactsPersonToString(){
+        StringBuilder sb = new StringBuilder("");
+        if (!contacts.isEmpty()) {
+            for (Contact contact:contacts) {
+                sb.append(System.lineSeparator()).append("===").append(contact.toString());
+            }
+        }
+        return sb.toString();
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

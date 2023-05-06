@@ -9,7 +9,7 @@
 		<property name="connection.password">root</property>
 		<!-- Select our SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
 		<!-- Echo the SQL to stdout -->
 		<property name="show_sql">false</property>
 		

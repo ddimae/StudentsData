@@ -91,7 +91,9 @@ public class AcademicGroup {
         sb.append(System.lineSeparator());
         sb.append(groupName).append(" (");
         sb.append(language).append(")");
-        studentsList.stream().forEach((stud) -> sb.append(System.lineSeparator()).append(stud.toString()));
+        studentsList.stream().forEach((stud) -> sb.append(System.lineSeparator())
+                .append(stud.toString())
+                .append(stud.contactsPersonToString()));
         sb.append(System.lineSeparator()).append("HEAD STUDENT: "+(headStudent==null?"not assigned":headStudent.toString()));
         sb.append(System.lineSeparator()).append("CURATOR: "+(curatorTeacher==null?"not assigned":curatorTeacher.toString()));
         return sb.toString();
