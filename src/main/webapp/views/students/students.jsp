@@ -3,57 +3,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employees</title>
+    <title>Students</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<h3>My Employees</h3>
-<!--<c:if test="${not empty sessionScope.username}">
-    <p>Active user: ${sessionScope.username}</p>
-    <p>Session: ${sessionScope.session}</p>
+
+<style>
+    <%@include file="students.css" %>
+</style>
+<div class="header1">
+    <div class="header-right">
+        <li><h1>Група <span>${group}</span></h1></li>
+        <li><a href="groups">Перелік груп</a></li>
+        <li style="float:right"><input class="header-input" type="text" placeholder="Введіть прізвище" id="search-text"
+                                       onkeyup="tableSearch()"></li>
+        <li style="float:right">
+            <button class="header-button" onclick="sortTable()"> Sort</button>
+        </li>
+    </div>
+</div>
+<%--
+c:if test="${not empty sessionScope.username}">
+<p>Active user: ${sessionScope.username}</p>
+<p>Session: ${sessionScope.session}</p>
 </c:if>
 <c:if test="${empty sessionScope.username}">
-    <p>No login</p>
+<p>No login</p>
 </c:if>
-<p><a href="mainpage.jsp">На головну</a></p>-->
-<br>
-<p><button onclick="sortTable()">Сортувати</button>
-    <a href="addEmployee">Додати співробітника</a></p>
-<input class="form-control" type="text" placeholder="Start to enter name" id="search-text" onkeyup="tableSearch()">
-
-<table border="2" id="myTable">
-    <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Pol</th>
-        <th>Salary</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    <c:forEach items="${employees}" var="empl">
+--%>
+<div>
+    <table border="2" id="students_table">
         <tr>
-            <td><c:out value="${empl.name}"/></td>
-            <td><c:out value="${empl.age}"/></td>
-            <td>
-                <c:if test="${empl.pol==true}">Male</c:if>
-                <c:if test="${empl.pol==false}">Female</c:if>
-            </td>
-            <td><c:out value="${empl.salary}"/></td>
-            <td>
-                <form action="editEmployee">
-                    <input type="hidden" name="id" value="${empl.id}">
-                    <input type="submit" value="Edit">
-                </form>
-            </td>
-            <td>
-                <form action="deleteEmployee">
-                    <input type="hidden" name="id" value="${empl.id}">
-                    <input type="submit" value="Delete">
-                    <!--onclick="return confirmation()"-->
-                </form>
-            </td>
+            <th>Прізвище</th>
+            <th>Імя</th>
+            <th>По-батькові</th>
+            <th>Дата народження</th>
+            <th>Бюджет/Контракт</th>
+            <th>Стипендія</th>
+            <th colspan="5">Actions</th>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach items="${students}" var="stud">
+            <tr>
+                <td><c:out value="${stud.lastName}"/></td>
+                <td><c:out value="${stud.firstName}"/></td>
+                <td><c:out value="${stud.middleName}"/></td>
+                <td><c:out value="${stud.dateOfBirth}"/></td>
+                <td>
+                    <c:if test="${stud.contract==true}">Бюджет</c:if>
+                    <c:if test="${stud.contract==false}">Контракт</c:if>
+                </td>
+                <td>
+                    <c:if test="${stud.takeScholarship==true}">ТАК</c:if>
+                    <c:if test="${stud.takeScholarship==false}">-</c:if>
+                </td>
+                <td>
+                    <form action="edit_student">
+                        <input type="hidden" name="id" value="${stud.id}">
+                        <input class="buttonfortable" type="submit" value="Змінити">
+                    </form>
+                </td>
+                <td>
+                    <form action="student_phones">
+                        <input type="hidden" name="id" value="${stud.id}">
+                        <input class="buttonfortable" type="submit" value="Телефони">
+                    </form>
+                </td>
+                <td>
+                    <form action="student_emails">
+                        <input type="hidden" name="id" value="${stud.id}">
+                        <input class="buttonfortable" type="submit" value="Пошта">
+                    </form>
+                </td>
+                <td>
+                    <form action="student_addreses">
+                        <input type="hidden" name="id" value="${stud.id}">
+                        <input class="buttonfortable" type="submit" value="Адреси">
+                    </form>
+                </td>
+                <td>
+                    <form action="student_parents">
+                        <input type="hidden" name="id" value="${stud.id}">
+                        <input class="buttonfortable" type="submit" value="Батьки">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
 <script type="text/javascript">
     // For confirm deleting
     function confirmation() {
@@ -63,15 +101,15 @@
     // For filtering
     function tableSearch() {
         var phrase = document.getElementById('search-text');
-        var table = document.getElementById('myTable');
+        var table = document.getElementById('students_table');
         var regPhrase = new RegExp(phrase.value, 'i');
         var flag = false;
         for (var i = 1; i < table.rows.length; i++) {
             //!!!
             //flag = false;
             //for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
-                flag = regPhrase.test(table.rows[i].cells[0].innerHTML); //cells[j]
-                //if (flag) break;
+            flag = regPhrase.test(table.rows[i].cells[0].innerHTML); //cells[j]
+            //if (flag) break;
             //}
             if (flag) {
                 table.rows[i].style.display = "";
@@ -85,7 +123,7 @@
     // For sorting
     function sortTable() {
         var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("myTable");
+        table = document.getElementById("students_table");
         switching = true;
         //Сделайте цикл, которая будет продолжаться до тех пор, пока
         //никакого переключения не было сделано:
@@ -118,7 +156,6 @@
             }
         }
     }
-
 </script>
 </body>
 </html>

@@ -74,10 +74,10 @@ public class TestWorkWithData {
 
         }
         //create groupe
-        AcademicGroup gr1 = new AcademicGroup("KN221a");
-        AcademicGroup gr2 = new AcademicGroup("KN221b");
-        AcademicGroup gr3 = new AcademicGroup("KN221v");
-        AcademicGroup gr4 = new AcademicGroup("KN222s");
+        AcademicGroup gr1 = new AcademicGroup("КН-222а");
+        AcademicGroup gr2 = new AcademicGroup("КН-222б");
+        AcademicGroup gr3 = new AcademicGroup("КН-222в");
+        AcademicGroup gr4 = new AcademicGroup("КН-222с");
 
         gr1.addStudent(s1);
         s1.setAcademicGroup(gr1);

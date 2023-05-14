@@ -34,7 +34,7 @@ public class EmployeeAllServlet extends HttpServlet {
 //
 //    @Override
 //    public void destroy() {
-//        System.out.println("EmployeeAddServlet#destroy");
+//        System.out.println("StudentEditServlet#destroy");
 //        HibernateUtil.shutdown();
 //    }
 }

@@ -26,7 +26,7 @@ public class EmployeeEditServlet extends HttpServlet {
 //        request.setAttribute("employee",emplToEdit);
 //        myEmpl = emplToEdit;
 //        request.setAttribute("id",id);
-//        String path = "/views/employees/employee.jsp";
+//        String path = "/views/employees/group_upload.jsp";
 //        ServletContext servletContext = getServletContext();
 //        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //        requestDispatcher.forward(request, response);
@@ -57,7 +57,7 @@ public class EmployeeEditServlet extends HttpServlet {
 //            request.setAttribute("error","Trying to input Employee with name stored in DB!!!");
 //            request.setAttribute("employee", emplForUdate);
 //            request.setAttribute("id",id); //!!!!
-//            String path = "/views/employees/employee.jsp";
+//            String path = "/views/employees/group_upload.jsp";
 //            ServletContext servletContext = getServletContext();
 //            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //            requestDispatcher.forward(request, response);
@@ -72,7 +72,7 @@ public class EmployeeEditServlet extends HttpServlet {
 //                request.setAttribute("error", "Check data! Update SQL mistake!!!");
 //                request.setAttribute("employee", emplForUdate);
 //                request.setAttribute("id",id); //!!!!
-//                String path = "/views/employees/employee.jsp";
+//                String path = "/views/employees/group_upload.jsp";
 //                ServletContext servletContext = getServletContext();
 //                RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //                requestDispatcher.forward(request, response);

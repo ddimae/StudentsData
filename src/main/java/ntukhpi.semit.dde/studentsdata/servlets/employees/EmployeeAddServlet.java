@@ -1,4 +1,4 @@
-package ntukhpi.semit.dde.webapphbn.servlets.employees;
+package ntukhpi.semit.dde.studentsdata.servlets.employees;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -13,12 +13,12 @@ import java.io.IOException;
 public class EmployeeAddServlet extends HttpServlet {
 //    @Override
 //    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("EmployeeAddServlet#doGet");
+//        System.out.println("StudentEditServlet#doGet");
 //        request.setAttribute("error",null);
 //        Employee emplData = new Employee(-1l,null,true,-1,-1.0);
 //        request.setAttribute("employee",emplData);
 //        request.setAttribute("id",-1);
-//        String path = "/views/employees/employee.jsp";
+//        String path = "/views/employees/group_upload.jsp";
 //        ServletContext servletContext = getServletContext();
 //        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //        requestDispatcher.forward(request, response);
@@ -26,7 +26,7 @@ public class EmployeeAddServlet extends HttpServlet {
 //
 //    @Override
 //    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("EmployeeAddServlet#doPost");
+//        System.out.println("StudentEditServlet#doPost");
 //        //Take parameters
 //        String nameStr = request.getParameter("name");
 //        String ageStr = request.getParameter("age");
@@ -44,7 +44,7 @@ public class EmployeeAddServlet extends HttpServlet {
 //            request.setAttribute("error","Trying to input Employee with name stored in DB!!!");
 //            request.setAttribute("employee", empl);
 //            request.setAttribute("id",-1);
-//            String path = "/views/employees/employee.jsp";
+//            String path = "/views/employees/group_upload.jsp";
 //            ServletContext servletContext = getServletContext();
 //            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //            requestDispatcher.forward(request, response);
@@ -59,7 +59,7 @@ public class EmployeeAddServlet extends HttpServlet {
 //                request.setAttribute("error", "Check data! Insert SQL mistake!!!");
 //                request.setAttribute("employee", empl);
 //                request.setAttribute("id",-1);
-//                String path = "/views/employees/employee.jsp";
+//                String path = "/views/employees/group_upload.jsp";
 //                ServletContext servletContext = getServletContext();
 //                RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //                requestDispatcher.forward(request, response);
