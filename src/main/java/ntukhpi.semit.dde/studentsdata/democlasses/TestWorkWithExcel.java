@@ -32,8 +32,10 @@ public class TestWorkWithExcel {
 
         AcademicGroup academicGroup = DAOObjects.daoAcademicGroup.findByKey(new AcademicGroup(groupName));
 
-        System.out.println(saveToWBExcel(groupName + "_F1", academicGroup.getStudentsList()));
-        academicGroup.printStudents();
+        String type = "F2";
+
+        System.out.println(saveToWBExcel(groupName, academicGroup, type));
+            academicGroup.printStudents();
 
     }
 

@@ -5,6 +5,7 @@ import ntukhpi.semit.dde.studentsdata.entity.Email;
 import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -13,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.DateTimeException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -95,9 +98,10 @@ public class ExcelUtilities {
         return phones;
     }
 
-    public static String saveToWBExcel(String filename, Set<Student> studentList) throws IOException {
+    public static String saveToWBExcel(String groupName, AcademicGroup academicGroup, String type) throws IOException {
+        Set<Student> studentList = academicGroup.getStudentsList();
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet(filename);
+        Sheet sheet = workbook.createSheet(groupName);
 
         // Стилі ячейки
         CellStyle style = workbook.createCellStyle();
@@ -106,18 +110,63 @@ public class ExcelUtilities {
         style.setBorderLeft(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
 
+        Font font = workbook.createFont();
+        font.setBold(true);
+        CellStyle boldStyle = workbook.createCellStyle();
+        boldStyle.setBorderTop(BorderStyle.THIN);
+        boldStyle.setBorderBottom(BorderStyle.THIN);
+        boldStyle.setBorderLeft(BorderStyle.THIN);
+        boldStyle.setBorderRight(BorderStyle.THIN);
+        boldStyle.setFont(font);
+        boldStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        int headerRows = 0;
+        // add header
+        switch (type) {
+            case "F2": {
+                headerRows = 2;
+                Row row0 = sheet.createRow(0);
+                Cell cell0 = row0.createCell(0);
+                cell0.setCellStyle(style);
+                cell0.setCellStyle(boldStyle);
+                cell0.setCellValue("СПИСОК СТУДЕНТІВ НАЧАЛЬНОЇ ГРУПИ " + groupName + " (дата)");
+                CellRangeAddress mergedRegion = new CellRangeAddress(0, 0, 0, 4);
+                sheet.addMergedRegion(mergedRegion);
+
+                String[] headers = {"№", "ПІПб", "Дата народження", "Бюджет/Контракт", "Стипендія"};
+
+                Row row1 = sheet.createRow(1);
+                int cellIndex = 0;
+                for (String header : headers) {
+                    Cell cell = row1.createCell(cellIndex++);
+                    cell.setCellStyle(style);
+                    cell.setCellValue(header);
+
+                }
+            }
+        }
+
         int rowIndex = 0;
         for (Student student : studentList) {
-            Row row = sheet.createRow(rowIndex++);
+            Row row = sheet.createRow(headerRows + rowIndex++);
 
             Cell number = row.createCell(0);
             number.setCellStyle(style);
-            ((Cell) number).setCellValue(rowIndex);
+            number.setCellValue(rowIndex);
 
-            addRowByForm1(row, student, style);
+            switch (type){
+                case "F1":
+                {
+                    addRowByForm1(row, student, style);
+                }
+                case "F2":
+                {
+                    addRowByForm2(row, student,academicGroup.getHeadStudent().getId() == student.getId(),  style, boldStyle);
+                }
+            }
         }
 
-        Path filePath = Paths.get("results/" + filename + ".xlsx");//
+        Path filePath = Paths.get("results/" + groupName + "_" + type + ".xlsx");//
         try (FileOutputStream outputStream = new FileOutputStream(filePath.toFile())) {
             workbook.write(outputStream);
         }
@@ -140,6 +189,35 @@ public class ExcelUtilities {
         Cell middleNameCell = row.createCell(3);
         middleNameCell.setCellStyle(style);
         middleNameCell.setCellValue(student.getMiddleName());
+    }
+
+    public static void addRowByForm2(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle) {
+        boldStyle.setAlignment(HorizontalAlignment.LEFT);
+        Cell fullNameCell = row.createCell(1);
+        fullNameCell.setCellStyle(isHead ? boldStyle : style);
+        fullNameCell.setCellValue(student.getLastName().toUpperCase() + " " + student.getFirstName() + " " + student.getMiddleName() +
+               (isHead ? " (староста)" : ""));
+
+        Cell dateOfBirthCell = row.createCell(2);
+        dateOfBirthCell.setCellStyle(style);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        try {
+            dateOfBirthCell.setCellValue(student.getDateOfBirth().format(formatter));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        Cell isContractCell = row.createCell(3);
+        isContractCell.setCellStyle(style);
+        if (student.isContract()) {
+            isContractCell.setCellValue("Контракт");
+        }
+
+        Cell isTakeScholarshipCell = row.createCell(4);
+        isTakeScholarshipCell.setCellStyle(style);
+        if (student.isTakeScholarship()) {
+            isTakeScholarshipCell.setCellValue("Так");
+        }
     }
 
 }
