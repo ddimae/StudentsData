@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * class DAOAcademicGroupsHBN
@@ -30,11 +31,10 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
         CriteriaQuery cq = cb.createQuery(AcademicGroup.class); //AcademicGroup.class
         Root rootEntry = cq.from(AcademicGroup.class);
         CriteriaQuery all = cq.select(rootEntry);
-
         TypedQuery allQuery = session.createQuery(all);
-        return allQuery.getResultList();
+        TreeSet<AcademicGroup> results = new TreeSet<>(allQuery.getResultList());
+        return results.stream().toList();
     }
-
     @Override
     public AcademicGroup findById(Long id) {
         AcademicGroup entityInDB = null;

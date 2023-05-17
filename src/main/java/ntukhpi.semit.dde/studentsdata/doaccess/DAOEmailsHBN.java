@@ -5,12 +5,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import ntukhpi.semit.dde.studentsdata.entity.Email;
+import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public class DAOEmailsHBN implements Idao<Email> {
 
@@ -22,7 +24,8 @@ public class DAOEmailsHBN implements Idao<Email> {
         Root<Email> rootEntry = cq.from(Email.class);
         CriteriaQuery<Email> all = cq.select(rootEntry);
         TypedQuery<Email> allQuery = session.createQuery(all);
-        return allQuery.getResultList();
+        TreeSet<Email> results = new TreeSet<>(allQuery.getResultList());
+        return results.stream().toList();
     }
 
     @Override

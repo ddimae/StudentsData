@@ -49,7 +49,7 @@ public class StudentEditServlet extends HttpServlet {
 //            request.setAttribute("error","Trying to input Student with sname, fname, pname and birsday stored in DB!!!");
 //            request.setAttribute("student", stud);
 //            request.setAttribute("id",0);
-//            String path = "/views/students/student.jsp";
+//            String path = "/views/students/phone.jsp";
 //            ServletContext servletContext = getServletContext();
 //            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
 //            requestDispatcher.forward(request, response);

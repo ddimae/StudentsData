@@ -80,4 +80,5 @@ public class TestStudents {
         System.out.println("\n\nHIBERNATE завершив роботу!!!");
         HibernateUtil.shutdown();
     }
+
 }

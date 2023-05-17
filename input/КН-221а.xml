@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+    <student>
+        <fullName>БОРИСЕВИЧ Алекс Сергійович</fullName>
+    </student>
+    <student>
+        <fullName>ГЛАДЧЕНКО Владислав Сергійович</fullName>
+    </student>
+    <student>
+        <fullName>ГОЛОВКО Ярослав Тарасович</fullName>
+    </student>
+    <student>
+        <fullName>КОВАЛЬОВ Євген Олександрович</fullName>
+    </student>
+    <student>
+        <fullName>КОСТОМАРОВ Євгеній Ігорович</fullName>
+    </student>
+    <student>
+        <fullName>КУЛАК Анастасія Олександрівна</fullName>
+    </student>
+</students>

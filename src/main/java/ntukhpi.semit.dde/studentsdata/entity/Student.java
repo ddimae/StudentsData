@@ -119,4 +119,7 @@ public class Student extends Person {
         return sb.toString();
     }
 
+    public void showInfo() {
+        System.out.println(this.getFirstName()+" "+this.getLastName()+" "+(this.isContract()?"- contract":""));
+    }
 }

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Студенти</title>
+    <title>Групи</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -11,24 +11,27 @@
 <body>
 
 <style>
-    <%@include file="students.css" %>
+    <%@include file="groups.css" %>
 </style>
 <div class="header1">
     <div class="header-right">
-        <li style="float:left"><h1>Група <span>${group}</span></h1></li>
-        <li style="float:left"><a href="groups" > Повернутись </a></li>
-        <li style="float:right"><input class="header-input" type="text" placeholder="Пошук за прізвищем" id="search-text"
+        <li style="float:left"><h1>Перелік груп</h1></li>
+        <!--
+        <li style="float:left"><a href="login" > На головну </a></li>
+        -->
+        <li style="float:right"><input class="header-input" type="text"
+                                       placeholder="Введіть номер групи" id="search-text"
                                        onkeyup="tableSearch()">
         </li>
-<!--
+ <!--
         <li style="float:right">
-            <button class="header-button" onclick="sortTable()"> Сортувати за прізвищем </button>
+            <button class="header-button" onclick="sortTable()"> Сортувати за номером групи </button>
         </li>
 -->
     </div>
 </div>
 <%--
-c:if test="${not empty sessionScope.username}">
+<c:if test="${not empty sessionScope.username}">
 <p>Active user: ${sessionScope.username}</p>
 <p>Session: ${sessionScope.session}</p>
 </c:if>
@@ -37,58 +40,50 @@ c:if test="${not empty sessionScope.username}">
 </c:if>
 --%>
 <div>
-    <table border="2" id="students_table">
+    <form enctype="multipart/form-data" action="${pageContext.request.contextPath}/load_students" method="post">
+        <input type="file" accept=".xlsx"><button onclick="sortTable()"> Завантажити дані про групу </button>
+    </form>
+</div>
+<div>
+    <table border="2" id="groups_table">
         <tr>
-            <th>Прізвище</th>
-            <th>Імя</th>
-            <th>По-батькові</th>
-            <th>Дата народження</th>
-            <th>Бюджет/Контракт</th>
-            <th>Стипендія</th>
-            <th colspan="5">Відомості про студента</th>
+            <th>Назва групи</th>
+            <th>Мова навчання</th>
+            <th>Перелік студентів</th>
+            <th colspan="4">Зберегти у файл</th>
         </tr>
-        <c:forEach items="${students}" var="stud">
+        <c:forEach items="${groups}" var="gr">
             <tr>
-                <td><c:out value="${stud.lastName}"/></td>
-                <td><c:out value="${stud.firstName}"/></td>
-                <td><c:out value="${stud.middleName}"/></td>
-                <td><c:out value="${stud.dateOfBirth}"/></td>
+                <td>${gr.groupName}</td>
+                <td>${gr.language}</td>
                 <td>
-                    <c:if test="${stud.contract==true}">Бюджет</c:if>
-                    <c:if test="${stud.contract==false}">Контракт</c:if>
-                </td>
-                <td>
-                    <c:if test="${stud.takeScholarship==true}">ТАК</c:if>
-                    <c:if test="${stud.takeScholarship==false}">-</c:if>
-                </td>
-                <td>
-                    <form action="edit_student">
-                        <input type="hidden" name="id" value="${stud.id}">
-                        <input class="buttonfortable" type="submit" value="Змінити">
+                    <form action="students">
+                        <input type="hidden" name="id_group" value="${gr.id}">
+                        <input class="buttonfortable" type="submit" value="Перелік студентів">
                     </form>
                 </td>
                 <td>
-                    <form action="phones">
-                        <input type="hidden" name="id_owner" value="${stud.id}">
-                        <input class="buttonfortable" type="submit" value="Телефони">
+                    <form action="save_students1">
+                        <input type="hidden" name="id" value="${gr.id}">
+                        <input class="buttonfortable" type="submit" value="Форма 1">
                     </form>
                 </td>
                 <td>
-                    <form action="emails">
-                        <input type="hidden" name="id_owner" value="${stud.id}">
-                        <input class="buttonfortable" type="submit" value="Пошта">
+                    <form action="save_students2">
+                        <input type="hidden" name="id" value="${gr.id}">
+                        <input class="buttonfortable" type="submit" value="Форма 2">
                     </form>
                 </td>
                 <td>
-                    <form action="addreses">
-                        <input type="hidden" name="id_owner" value="${stud.id}">
-                        <input class="buttonfortable" type="submit" value="Адреси">
+                    <form action="save_students3">
+                        <input type="hidden" name="id" value="${gr.id}">
+                        <input class="buttonfortable" type="submit" value="Форма 3">
                     </form>
                 </td>
                 <td>
-                    <form action="student_parents">
-                        <input type="hidden" name="id" value="${stud.id}">
-                        <input class="buttonfortable" type="submit" value="Батьки">
+                    <form action="save_students4">
+                        <input type="hidden" name="id" value="${gr.id}">
+                        <input class="buttonfortable" type="submit" value="Форма 4">
                     </form>
                 </td>
             </tr>
@@ -104,7 +99,8 @@ c:if test="${not empty sessionScope.username}">
     // For filtering
     function tableSearch() {
         var phrase = document.getElementById('search-text');
-        var table = document.getElementById('students_table');
+        //phrase = 'КН-'+phrase;
+        var table = document.getElementById('groups_table');
         var regPhrase = new RegExp(phrase.value, 'i');
         var flag = false;
         for (var i = 1; i < table.rows.length; i++) {
@@ -126,7 +122,7 @@ c:if test="${not empty sessionScope.username}">
     // For sorting
     function sortTable() {
         var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("students_table");
+        table = document.getElementById("groups_table");
         switching = true;
         //Сделайте цикл, которая будет продолжаться до тех пор, пока
         //никакого переключения не было сделано:
