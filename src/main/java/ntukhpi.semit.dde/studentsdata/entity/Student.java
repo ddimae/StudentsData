@@ -30,10 +30,10 @@ public class Student extends Person {
 
     @Column(name = "contract",nullable = false)
     @ColumnDefault(value="FALSE")
-    private boolean isContract;
+    private boolean contract;
     @Column(name = "scholarship",nullable = false)
     @ColumnDefault(value="FALSE")
-    private boolean isTakeScholarship;
+    private boolean takeScholarship;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_group_id")
@@ -48,22 +48,30 @@ public class Student extends Person {
     //Constructors
     public Student(@NotNull String lastName, String firstName, String middleName) {
         super(lastName, firstName, middleName);
+        contract = false;
+        takeScholarship = false;
+
+        parents = new HashMap<>();
     }
 
     public Student(@NotNull String lastName, String firstName, String middleName, LocalDate dateOfBirth) {
         super(lastName,firstName,middleName,dateOfBirth);
+        contract = false;
+        takeScholarship = false;
         parents = new HashMap<>();
     }
 
     public Student(String lastName, String firstName, String middleName, String dateOfBirthStr) {
         super(lastName, firstName, middleName, dateOfBirthStr);
+        contract = false;
+        takeScholarship = false;
         parents = new HashMap<>();
     }
 
-    public Student(String lastName, String firstName, String middleName, LocalDate dateOfBirth, boolean isContract, boolean scholarship) {
+    public Student(String lastName, String firstName, String middleName, LocalDate dateOfBirth, boolean isContract, boolean isScholarship) {
         super(lastName,firstName,middleName,dateOfBirth);
-        this.isContract = isContract;
-        this.isTakeScholarship = scholarship;
+        contract = false;
+        takeScholarship = false;
         parents = new HashMap<>();
     }
 
@@ -111,4 +119,7 @@ public class Student extends Person {
         return sb.toString();
     }
 
+    public void showInfo() {
+        System.out.println(this.getFirstName()+" "+this.getLastName()+" "+(this.isContract()?"- contract":""));
+    }
 }

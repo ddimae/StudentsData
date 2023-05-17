@@ -4,12 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 //@MappedSuperclass
 @Entity
@@ -26,15 +21,15 @@ public abstract class Contact { //
 
     @Column(name = "active",nullable = false)
     @ColumnDefault(value="TRUE")
-    private boolean isActive;
+    private boolean active;
 
     @Column(name = "prior",nullable = false)
     @ColumnDefault(value="FALSE")
-    private boolean isPrior;
+    private boolean prior;
 
     public Contact(boolean isActive, boolean isPrior, Person owner) {
-        this.isActive = isActive;
-        this.isPrior = isPrior;
+        this.active = isActive;
+        this.prior = isPrior;
         this.owner = owner;
     }
 
@@ -46,9 +41,18 @@ public abstract class Contact { //
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(" (");
-        sb.append(isActive?"Активний":"Неактивний");
-        sb.append(isPrior?",Основний":"");
+        sb.append(active ?"Активний":"Неактивний");
+        sb.append(prior ?",Основний":"");
         sb.append(')');
+        return sb.toString();
+    }
+
+    public String toStringWithOwner() {
+        final StringBuilder sb = new StringBuilder(" (");
+        sb.append(active ?"Активний":"Неактивний");
+        sb.append(prior ?",Основний":"");
+        sb.append(')');
+        sb.append(", власник - ").append(getOwner().initialsToString());
         return sb.toString();
     }
 }

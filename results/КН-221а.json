@@ -1,0 +1,50 @@
+[
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "КУЛАК",
+    "firstName": "Анастасія",
+    "middleName": "Олександрівна",
+    "dateOfBirth": "2004-01-15"
+  },
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "ГЛАДЧЕНКО",
+    "firstName": "Владислав",
+    "middleName": "Сергійович",
+    "dateOfBirth": "2004-06-30"
+  },
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "КОВАЛЬОВ",
+    "firstName": "Євген",
+    "middleName": "Олександрович",
+    "dateOfBirth": "2004-03-14"
+  },
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "КОСТОМАРОВ",
+    "firstName": "Євгеній",
+    "middleName": "Ігорович",
+    "dateOfBirth": "2004-02-07"
+  },
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "БОРИСЕВИЧ",
+    "firstName": "Алекс",
+    "middleName": "Сергійович",
+    "dateOfBirth": "2004-04-20"
+  },
+  {
+    "isContract": false,
+    "isTakeScholarship": false,
+    "lastName": "ГОЛОВКО",
+    "firstName": "Ярослав",
+    "middleName": "Тарасович",
+    "dateOfBirth": "2004-01-14"
+  }
+]

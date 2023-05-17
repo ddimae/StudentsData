@@ -123,6 +123,12 @@ public abstract class Person { //
         return sb.toString();
 
     }
+    public String initialsToString() {
+
+        return "" + lastName +
+                (firstName!=null&&firstName.length()>0?" " + firstName.charAt(0)+".":"") +
+                (middleName!=null&&middleName.length()>0?middleName.charAt(0)+".":"");
+    }
 
     @Override
     public boolean equals(Object o) {

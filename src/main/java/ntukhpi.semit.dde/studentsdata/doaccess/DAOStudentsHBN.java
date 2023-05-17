@@ -1,13 +1,13 @@
 package ntukhpi.semit.dde.studentsdata.doaccess;
 
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import ntukhpi.semit.dde.studentsdata.entity.Person;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
+import jakarta.persistence.criteria.*;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
+import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
+import ntukhpi.semit.dde.studentsdata.entity.Person;
+import ntukhpi.semit.dde.studentsdata.entity.Contact;
+import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
+import ntukhpi.semit.dde.studentsdata.entity.Email;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,8 +15,6 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Locale.Category.DISPLAY;
 
 
 /**
@@ -34,9 +32,24 @@ public class DAOStudentsHBN implements Idao<Student> {
         CriteriaQuery cq = cb.createQuery(Student.class);
         Root rootEntry = cq.from(Student.class);
         CriteriaQuery all = cq.select(rootEntry);
+        TypedQuery query = session.createQuery(all);
+        return query.getResultList();
+    }
 
-        TypedQuery allQuery = session.createQuery(all);
-        return allQuery.getResultList();
+    public List<Student> getAllListByGroup(AcademicGroup group) {
+        //https://docs.oracle.com/javaee/6/tutorial/doc/gjivm.html
+        List<Student> results = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Student> cq = cb.createQuery(Student.class);
+            Root<Student> rootEntry = cq.from(Student.class);
+            CriteriaQuery all = cq.select(rootEntry);
+            TypedQuery<Student> query = session.createQuery(all);
+            results = query.getResultList().stream().filter(st->st.getAcademicGroup()!=null&&st.getAcademicGroup().equals(group)).toList();
+        } catch (Exception e) {
+            System.err.println("=== " + this.getClass() + "#getAllListByGroup === Something went wrong!");
+        }
+        return results;
     }
 
     @Override
@@ -101,17 +114,60 @@ public class DAOStudentsHBN implements Idao<Student> {
      */
     public boolean deletePhonesNumberByOwner(Person owner) {
         boolean deleteOk = false;
+        List<Contact> contactsOwner = new ArrayList<>();
         if (owner != null) {
             Transaction transaction = null;
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 // start a transaction
                 transaction = session.beginTransaction();
                 Person ownerINDB = DAOObjects.daoPerson.findByKey(owner);
-                ownerINDB.getContacts().stream().filter(contact->contact instanceof PhoneNumber)
-                        .forEach(phone ->{
-                            ownerINDB.getContacts().remove(phone);
-                            session.delete(phone);
-                        });
+                contactsOwner = ownerINDB.getContacts().stream().toList();
+                //System.out.println(contactsOwner);
+                for (Contact contact: contactsOwner){
+                    if (contact instanceof PhoneNumber) {
+                        //System.out.println(contact);
+                        ownerINDB.delContact(contact);
+                        session.delete(contact);
+                    }
+                }
+                // commit transaction
+                transaction.commit();
+                deleteOk = true;
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                System.err.println("=== " + this.getClass() + "#delete === Something went wrong!");
+                deleteOk = false;
+            }
+        }
+        return deleteOk;
+    }
+
+    /**
+     * Method to delete all phones for specified owner (Person)
+     *
+     * @param owner - specified owner
+     * @return boolean - true if record has been updated, false - in other case
+     */
+    public boolean deleteEmailsByOwner(Person owner) {
+        boolean deleteOk = false;
+        List<Contact> contactsOwner = new ArrayList<>();
+        if (owner != null) {
+            Transaction transaction = null;
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                // start a transaction
+                transaction = session.beginTransaction();
+                Person ownerINDB = DAOObjects.daoPerson.findByKey(owner);
+                contactsOwner = ownerINDB.getContacts().stream().toList();
+                //System.out.println(contactsOwner);
+                for (Contact contact: contactsOwner){
+                    if (contact instanceof Email) {
+                        //System.out.println(contact);
+                        ownerINDB.delContact(contact);
+                        session.delete(contact);
+                    }
+                }
                 // commit transaction
                 transaction.commit();
                 deleteOk = true;

@@ -4,10 +4,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
 import ntukhpi.semit.dde.studentsdata.entity.Contact;
 import ntukhpi.semit.dde.studentsdata.entity.Person;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -80,8 +78,9 @@ public class DAOContactsHBN implements Idao<Contact> {
             Person owner = DAOObjects.daoPerson.findByKey(entityToSave.getOwner());
             //add new contact to contacts list of specified Person
             owner.addContact(entityToSave);
-            // save the student objects
-            session.persist(entityToSave);
+            entityToSave.setOwner(owner);
+            // save the PhoneNumber objects
+            session.save(entityToSave);
             // update owner
             session.update(owner);
             // commit transaction
@@ -158,6 +157,7 @@ public class DAOContactsHBN implements Idao<Contact> {
         }
         return deleteOK;
     }
+
 
 }
 
