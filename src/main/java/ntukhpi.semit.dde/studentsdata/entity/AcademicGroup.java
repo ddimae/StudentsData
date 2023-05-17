@@ -43,18 +43,19 @@ public class AcademicGroup implements Comparable<AcademicGroup> {
     @NotNull
     private Language language;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "academicGroup")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "academicGroup")
     private Set<Student> studentsList;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "head_student_id", nullable = true)
     @ColumnDefault(value = NULL)
     private Student headStudent;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "curator_id", nullable = true)
     @ColumnDefault(value = NULL)
     private Teacher curatorTeacher;
+
 
     public AcademicGroup(String groupName) {
         this.groupName = groupName;

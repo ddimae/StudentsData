@@ -187,14 +187,14 @@ public class TestWorkWithData {
             e.printStackTrace();
             System.exit(666);
         }
-        //Upload for "КН-221a.xlsx" and save into
-        AcademicGroup group = null;
-        String filenameToRead = "input/КН-221а.xlsx";
-        group = readFromWBExcelFullToClearDB(filenameToRead);
-        System.out.println("TestWorkWithExcel#readFromWBExcelFullToClearDB: Group from Excel:\n"+group.toStringWithGrouplist());
-        if (DAOObjects.daoAcademicGroup.saveAcademicGroupToDB(group)) {
-            System.out.println("Дані збережені в БД");
-        };
+//        //Upload for "КН-221a.xlsx" and save into
+//        AcademicGroup group = null;
+//        String filenameToRead = "input/КН-221а.xlsx";
+//        group = readFromWBExcelFullToClearDB(filenameToRead);
+//        System.out.println("TestWorkWithExcel#readFromWBExcelFullToClearDB: Group from Excel:\n"+group.toStringWithGrouplist());
+//        if (DAOObjects.daoAcademicGroup.saveAcademicGroupToDB(group)) {
+//            System.out.println("Дані збережені в БД");
+//        };
 
     }
 }
