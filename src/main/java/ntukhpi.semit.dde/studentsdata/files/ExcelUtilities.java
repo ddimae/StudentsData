@@ -1,11 +1,9 @@
 package ntukhpi.semit.dde.studentsdata.files;
 
-import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
-import ntukhpi.semit.dde.studentsdata.entity.Email;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
-import ntukhpi.semit.dde.studentsdata.entity.Student;
+import ntukhpi.semit.dde.studentsdata.entity.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -21,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ExcelUtilities {
 
@@ -110,14 +109,14 @@ public class ExcelUtilities {
         style.setBorderLeft(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
 
-        Font font = workbook.createFont();
-        font.setBold(true);
+        Font boldFont = workbook.createFont();
+        boldFont.setBold(true);
         CellStyle boldStyle = workbook.createCellStyle();
         boldStyle.setBorderTop(BorderStyle.THIN);
         boldStyle.setBorderBottom(BorderStyle.THIN);
         boldStyle.setBorderLeft(BorderStyle.THIN);
         boldStyle.setBorderRight(BorderStyle.THIN);
-        boldStyle.setFont(font);
+        boldStyle.setFont(boldFont);
         boldStyle.setAlignment(HorizontalAlignment.CENTER);
 
         int headerRows = 0;
@@ -162,6 +161,10 @@ public class ExcelUtilities {
                 case "F2":
                 {
                     addRowByForm2(row, student,academicGroup.getHeadStudent().getId() == student.getId(),  style, boldStyle);
+                }
+                case "F3":
+                {
+                    addRowByForm3(row, student,academicGroup.getHeadStudent().getId() == student.getId(),  style, boldStyle, boldFont);
                 }
             }
         }
@@ -218,6 +221,92 @@ public class ExcelUtilities {
         if (student.isTakeScholarship()) {
             isTakeScholarshipCell.setCellValue("Так");
         }
+    }
+
+    public static void addRowByForm3(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle, Font boldFont) {
+        boldStyle.setAlignment(HorizontalAlignment.LEFT);
+        Cell fullNameCell = row.createCell(1);
+        fullNameCell.setCellStyle(isHead ? boldStyle : style);
+        fullNameCell.setCellValue(student.getLastName().toUpperCase() + " " + student.getFirstName() + " " + student.getMiddleName() +
+                (isHead ? " (староста)" : ""));
+
+        Cell dateOfBirthCell = row.createCell(2);
+        dateOfBirthCell.setCellStyle(style);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        try {
+            dateOfBirthCell.setCellValue(student.getDateOfBirth().format(formatter));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        Set<Contact> contacts = student.getContacts();
+
+        Set<PhoneNumber> phoneNumbers = contacts.stream()
+                .filter(contact -> contact instanceof PhoneNumber)
+                .map(contact -> (PhoneNumber) contact)
+                .collect(Collectors.toSet());
+
+        String joinedNumbers = phoneNumbers.stream()
+                .map(PhoneNumber::getPhoneNumber)
+                .collect(Collectors.joining(", "));
+
+        PhoneNumber mainPhoneNumber = null;
+        for (PhoneNumber phoneNumber : phoneNumbers) {
+            if (phoneNumber.isPrior()) {
+                mainPhoneNumber = phoneNumber;
+                break;
+            }
+        }
+
+        RichTextString richTextNumbers = new XSSFRichTextString(joinedNumbers);
+
+        if (mainPhoneNumber != null) {
+            String mainNumber = mainPhoneNumber.getPhoneNumber();
+
+            int startIndex = joinedNumbers.indexOf(mainNumber);
+            int endIndex = startIndex + mainNumber.length();
+            richTextNumbers.applyFont(startIndex, endIndex, boldFont);
+        }
+
+        Cell phoneCell = row.createCell(3);
+        phoneCell.setCellStyle(style);
+        phoneCell.setCellValue(richTextNumbers);
+
+
+
+        Set<Email> emails = contacts.stream()
+                .filter(contact -> contact instanceof Email)
+                .map(contact -> (Email) contact)
+                .collect(Collectors.toSet());
+
+        String joinedEmails = emails.stream()
+                .map(Email::getEmail)
+                .collect(Collectors.joining(", "));
+
+        Email mainEmail = null;
+        for (Email email : emails) {
+            if (email.isPrior()) {
+                mainEmail = email;
+                break;
+            }
+        }
+
+        RichTextString richTextEmails = new XSSFRichTextString(joinedEmails);
+
+        if (mainEmail != null) {
+            String mainEmailText = mainEmail.getEmail();
+
+            int startIndex = joinedEmails.indexOf(mainEmailText);
+            int endIndex = startIndex + mainEmailText.length();
+            richTextEmails.applyFont(startIndex, endIndex, boldFont);
+        }
+
+        Cell emailCell = row.createCell(4);
+        emailCell.setCellStyle(style);
+        emailCell.setCellValue(richTextEmails);
+
+
+
     }
 
 }
