@@ -1,20 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="Menu.jsp"%>
-<title>ntukhpi</title>
+    <title>Students Data</title>
+<%--        <link rel="stylesheet" type="text/css" rel="noopener" target="_blank" href="1.css">--%>
+        <link href="StudentsData.css" rel="stylesheet" type="text/css"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<h1>NTU "KhPI" Structure MAY 2022</h1>
-<h1>Hibernate in action!</h1>
-<br>
-<h3>Сьогодні <%=java.time.LocalDate.now() %></h3>
+<style><%@include file="/StudentsData.css"%></style>
+
+<div class="login-page">
+        <div class="form">
+                <form action="groups" method="post" class="login-form">
+                        <button>START</button>
+                </form>
+        </div>
+</div>
 
 </body>
-<footer>
-	<%@ include file="Footer.jsp"%>
-</footer>
 </html>

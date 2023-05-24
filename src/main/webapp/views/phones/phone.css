@@ -1,0 +1,82 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+html, body {
+    font-family: "Roboto", sans-serif;
+    margin:0;
+    height: 100%;
+}
+h2 {
+    color: #333333;
+    text-align:center;
+}
+.form-field {
+    color: #333333;
+}
+.form-field-input-input {
+    padding-left: 20px;
+    color: #333333;
+    border-radius: 4px;
+    border-style:none;
+}
+.form-field-label {
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #1B1D1F;
+    padding-left: 20px;
+    margin-bottom: 8px;
+}
+.bottomButtons {
+    display: block;
+    color: #333333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    border-color:#806854;
+    background-color: #9BC5CC;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+
+}
+.bottomButtons:hover{
+    background-color: #547980;
+}
+
+li {
+    display: inline;
+    float: left;
+}
+
+li a {
+    display: block;
+    color: #333333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-style: solid;
+    border-radius: 4px;
+    border-color:#806854;
+    font-weight: bold;
+    background-color: #9BC5CC;
+    margin-top: 10px;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #547980;
+}
+body {
+    background: radial-gradient(at top, #9BB8CC, #E0BAAB);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

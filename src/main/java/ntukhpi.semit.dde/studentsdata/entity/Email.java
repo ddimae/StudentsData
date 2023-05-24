@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Email extends Contact {
+public class Email extends Contact implements Comparable<Email> {
     @Column(name = "email", nullable=false, unique=true, length = 80)
     @NotNull
     private String email;
@@ -30,5 +29,17 @@ public class Email extends Contact {
         final StringBuilder sb = new StringBuilder("EMAIL: ");
         sb.append(email).append(super.toString());
         return sb.toString();
+    }
+
+    @Override
+    public String toStringWithOwner() {
+        final StringBuilder sb = new StringBuilder("EMAIL: ");
+        sb.append(email).append(super.toStringWithOwner());
+        return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Email o) {
+        return this.email.compareTo(o.email);
     }
 }

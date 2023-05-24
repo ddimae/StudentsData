@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * class DAOAcademicGroupsHBN
@@ -30,11 +31,10 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
         CriteriaQuery cq = cb.createQuery(AcademicGroup.class); //AcademicGroup.class
         Root rootEntry = cq.from(AcademicGroup.class);
         CriteriaQuery all = cq.select(rootEntry);
-
         TypedQuery allQuery = session.createQuery(all);
-        return allQuery.getResultList();
+        TreeSet<AcademicGroup> results = new TreeSet<>(allQuery.getResultList());
+        return results.stream().toList();
     }
-
     @Override
     public AcademicGroup findById(Long id) {
         AcademicGroup entityInDB = null;
@@ -163,31 +163,57 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
 
         boolean flOK = false;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            try {
+            AcademicGroup groupInDB = DAOObjects.daoAcademicGroup.findByKey(group);
+            // if exist full clear data about it
+            if (groupInDB == null) {
                 DAOObjects.daoAcademicGroup.insert(group);
-            } catch (Exception e) {
-                System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be AcademicGroup already in DB");
             }
 
             for (Student stud : group.getStudentsList()) {
+                Student studInDB = DAOObjects.daoStudent.findByKey(stud);
                 try {
-                    DAOObjects.daoStudent.insert(stud);
-                } catch (Exception e){
+                    if (studInDB == null) {
+                        //new student
+                        stud.setAcademicGroup(group);
+                        DAOObjects.daoStudent.insert(stud);
+                    } else {
+                        // student already in db - change new group name and update
+                       stud.setAcademicGroup(groupInDB);
+                       DAOObjects.daoStudent.update(studInDB.getId(), stud);
+                    }
+                } catch (Exception e) {
                     System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be Student already in DB");
+
                 }
 
             }
             for (Student stud : group.getStudentsList()) {
-                for (Contact contact: stud.getContacts()) {
+                for (Contact contact : stud.getContacts()) {
                     try {
                         DAOObjects.daoContact.insert(contact);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.err.println("DAOAcademicGroupsHBN#saveAcademicGroupToDB May be Contact already in DB");
                     }
 
                 }
             }
 
+        }
+        return flOK;
+    }
+
+    public boolean deleteAcademicGroupFromDB(AcademicGroup group) {
+
+        boolean flOK = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            List<Student> studentsList = DAOObjects.daoStudent.getAllListByGroup(group);
+            for (Student stud : studentsList) {
+                DAOObjects.daoStudent.deletePhonesNumberByOwner(stud);
+                DAOObjects.daoStudent.deleteEmailsByOwner(stud);
+                DAOObjects.daoStudent.delete(stud.getId());
+            }
+            AcademicGroup groupINDB = DAOObjects.daoAcademicGroup.findByKey(group);
+            this.delete(groupINDB.getId());
         }
         return flOK;
     }

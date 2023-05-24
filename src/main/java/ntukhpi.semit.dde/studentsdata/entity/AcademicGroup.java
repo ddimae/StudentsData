@@ -27,7 +27,7 @@ import static org.hibernate.sql.InFragment.NULL;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AcademicGroup {
+public class AcademicGroup implements Comparable<AcademicGroup> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,6 +68,9 @@ public class AcademicGroup {
     public AcademicGroup(String groupName, Language language) {
         this.groupName = groupName;
         this.language = language;
+        studentsList = new LinkedHashSet<>();
+        headStudent = null;
+        curatorTeacher = null;
     }
 
     public void addStudent(Student student) {
@@ -120,4 +123,18 @@ public class AcademicGroup {
     }
 
 
+    @Override
+    public int compareTo(AcademicGroup o) {
+        return this.groupName.compareTo(o.groupName);
+    }
+
+    public void printInfo() {
+        System.out.println(this.getGroupName()+" "+this.getLanguage());
+        System.out.println("Students in");
+        for (Student stud:
+                this.getStudentsList()) {
+            stud.showInfo();
+
+        }
+    }
 }

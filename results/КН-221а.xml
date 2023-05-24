@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<students>
+  <student>
+    <lastName>ГЛАДЧЕНКО</lastName>
+    <firstName>Владислав</firstName>
+    <middleName>Сергійович</middleName>
+    <dateOfBirth>2004-09-22</dateOfBirth>
+  </student>
+  <student>
+    <lastName>ГОЛОВКО</lastName>
+    <firstName>Ярослав</firstName>
+    <middleName>Тарасович</middleName>
+    <dateOfBirth>2004-03-11</dateOfBirth>
+  </student>
+  <student>
+    <lastName>КУЛАК</lastName>
+    <firstName>Анастасія</firstName>
+    <middleName>Олександрівна</middleName>
+    <dateOfBirth>2004-01-12</dateOfBirth>
+  </student>
+  <student>
+    <lastName>КОВАЛЬОВ</lastName>
+    <firstName>Євген</firstName>
+    <middleName>Олександрович</middleName>
+    <dateOfBirth>2004-07-06</dateOfBirth>
+  </student>
+  <student>
+    <lastName>БОРИСЕВИЧ</lastName>
+    <firstName>Алекс</firstName>
+    <middleName>Сергійович</middleName>
+    <dateOfBirth>2004-10-31</dateOfBirth>
+  </student>
+  <student>
+    <lastName>КОСТОМАРОВ</lastName>
+    <firstName>Євгеній</firstName>
+    <middleName>Ігорович</middleName>
+    <dateOfBirth>2004-03-19</dateOfBirth>
+  </student>
+</students>
