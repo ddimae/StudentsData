@@ -137,4 +137,11 @@ public class AcademicGroup implements Comparable<AcademicGroup> {
 
         }
     }
+
+    public void showInfo() {
+        System.out.println("Students list: "+ groupName);
+        for (Student st: getStudentsList()) {
+            st.showInfo2();
+        }
+    }
 }

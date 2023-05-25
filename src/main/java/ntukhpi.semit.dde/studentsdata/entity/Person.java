@@ -151,4 +151,13 @@ public abstract class Person { //
         result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
         return result;
     }
+
+    public void showInfoStud() {
+        System.out.println(lastName+" "+firstName.charAt(0)+".");
+    }
+
+    protected String getName() {
+        return lastName+" "+firstName.charAt(0)+".";
+
+    }
 }

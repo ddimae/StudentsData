@@ -33,7 +33,7 @@ public class TestStudents {
         DAOObjects.daoStudent.insert(stud);
         group.addStudent(stud);
         DAOObjects.daoAcademicGroup.insert(group);
-        //assertEquals(null,DAOObjects.daoStudent.findByKey(stud).getAcademicGroup());
+        assertEquals(null,DAOObjects.daoStudent.findByKey(stud));
     }
 
     @Test
@@ -51,6 +51,14 @@ public class TestStudents {
     void TestAllStudent() {
         List<Student> students = DAOObjects.daoStudent.getAllList();
         System.out.println(students);
+    }
+
+    @Test
+    void ShowExpert() {
+        AcademicGroup grToFind = new AcademicGroup("КН-221в");
+        AcademicGroup mygroup  = DAOObjects.daoAcademicGroup.findByKey(grToFind);
+        mygroup.showInfo();
+
     }
 
     @Test
