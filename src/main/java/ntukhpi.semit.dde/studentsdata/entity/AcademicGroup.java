@@ -8,7 +8,6 @@ import ntukhpi.semit.dde.studentsdata.utils.Language;
 import ntukhpi.semit.dde.studentsdata.utils.LanguageConverter;
 import org.hibernate.annotations.ColumnDefault;
 
-
 import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -137,4 +136,11 @@ public class AcademicGroup {
         }
     }
 
+    public boolean isHead(Student student) {
+        if (headStudent== null) {
+            return false;
+        } else {
+            return student.equals(headStudent);
+        }
+    }
 }

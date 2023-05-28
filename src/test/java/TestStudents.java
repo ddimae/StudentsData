@@ -25,6 +25,11 @@ public class TestStudents {
     }
 
     @Test
+    void Test() {
+
+    }
+
+    @Test
     void TestInsert(){
         AcademicGroup group = new AcademicGroup("КН-22222а");
         System.out.println(group);
