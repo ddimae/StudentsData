@@ -10,12 +10,12 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
+import static ntukhpi.semit.dde.studentsdata.files.ExcelUtilities.STUDENTSDATA_FILES_FOLDER;
+
 @WebServlet("/load_students")
 public class UploadExcelServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
-    public static final String SAVE_DIRECTORY = "input";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -31,9 +31,9 @@ public class UploadExcelServlet extends HttpServlet {
             // The directory to save uploaded file
             String fullSavePath = null;
             if (appPath.endsWith("/")) {
-                fullSavePath = appPath + SAVE_DIRECTORY;
+                fullSavePath = appPath + STUDENTSDATA_FILES_FOLDER;
             } else {
-                fullSavePath = appPath + "/" + SAVE_DIRECTORY;
+                fullSavePath = appPath + "/" + STUDENTSDATA_FILES_FOLDER;
             }
 
             // Creates the save directory if it does not exists
