@@ -19,7 +19,6 @@ import static org.hibernate.sql.InFragment.NULL;
 /**
  * @author Milka Vladislav
  * @version 1.0
- * @created 27-Mar-2023 11:35:29 AM
  */
 
 @Entity
@@ -27,7 +26,7 @@ import static org.hibernate.sql.InFragment.NULL;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AcademicGroup implements Comparable<AcademicGroup> {
+public class AcademicGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,12 +46,12 @@ public class AcademicGroup implements Comparable<AcademicGroup> {
     private Set<Student> studentsList;
 
     @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "head_student_id", nullable = true)
+    @JoinColumn(name = "head_student_id")
     @ColumnDefault(value = NULL)
     private Student headStudent;
 
     @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "curator_id", nullable = true)
+    @JoinColumn(name = "curator_id")
     @ColumnDefault(value = NULL)
     private Teacher curatorTeacher;
 
@@ -98,8 +97,8 @@ public class AcademicGroup implements Comparable<AcademicGroup> {
         studentsList.stream().forEach((stud) -> sb.append(System.lineSeparator())
                 .append(stud.toString())
                 .append(stud.contactsPersonToString()));
-        sb.append(System.lineSeparator()).append("HEAD STUDENT: "+(headStudent==null?"not assigned":headStudent.toString()));
-        sb.append(System.lineSeparator()).append("CURATOR: "+(curatorTeacher==null?"not assigned":curatorTeacher.toString()));
+        sb.append(System.lineSeparator()).append("HEAD STUDENT: ").append(headStudent==null?"not assigned":headStudent.toString());
+        sb.append(System.lineSeparator()).append("CURATOR: ").append(curatorTeacher==null?"not assigned":curatorTeacher.toString());
         return sb.toString();
     }
 
@@ -122,19 +121,20 @@ public class AcademicGroup implements Comparable<AcademicGroup> {
         return Objects.hash(groupName);
     }
 
-
-    @Override
-    public int compareTo(AcademicGroup o) {
-        return this.groupName.compareTo(o.groupName);
-    }
-
     public void printInfo() {
         System.out.println(this.getGroupName()+" "+this.getLanguage());
         System.out.println("Students in");
         for (Student stud:
                 this.getStudentsList()) {
             stud.showInfo();
-
         }
     }
+
+    public void showInfo() {
+        System.out.println("Students list: "+ groupName);
+        for (Student st: getStudentsList()) {
+            st.showInfo2();
+        }
+    }
+
 }

@@ -28,12 +28,11 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
     public List<AcademicGroup> getAllList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(AcademicGroup.class); //AcademicGroup.class
-        Root rootEntry = cq.from(AcademicGroup.class);
-        CriteriaQuery all = cq.select(rootEntry);
-        TypedQuery allQuery = session.createQuery(all);
-        TreeSet<AcademicGroup> results = new TreeSet<>(allQuery.getResultList());
-        return results.stream().toList();
+        CriteriaQuery<AcademicGroup> cq = cb.createQuery(AcademicGroup.class); //AcademicGroup.class
+        Root<AcademicGroup> rootEntry = cq.from(AcademicGroup.class);
+        CriteriaQuery<AcademicGroup> all = cq.select(rootEntry);
+        TypedQuery<AcademicGroup> allQuery = session.createQuery(all);
+        return allQuery.getResultList();
     }
     @Override
     public AcademicGroup findById(Long id) {
@@ -68,7 +67,7 @@ public class DAOAcademicGroupsHBN implements Idao<AcademicGroup> {
             CriteriaQuery<AcademicGroup> cr = cb.createQuery(AcademicGroup.class);
             Root<AcademicGroup> root = cr.from(AcademicGroup.class);
             //Here you must adapt select condition to your set of key fields
-            //Atentively - check name of field!
+            //Attentively - check name of field!
             cr.select(root).where(cb.equal(root.get("groupName"), template.getGroupName()));
             Query<AcademicGroup> query = session.createQuery(cr);
             results = query.getResultList();

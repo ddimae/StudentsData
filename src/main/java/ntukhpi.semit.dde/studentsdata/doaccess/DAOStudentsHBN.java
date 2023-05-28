@@ -29,10 +29,10 @@ public class DAOStudentsHBN implements Idao<Student> {
     public List<Student> getAllList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery(Student.class);
-        Root rootEntry = cq.from(Student.class);
-        CriteriaQuery all = cq.select(rootEntry);
-        TypedQuery query = session.createQuery(all);
+        CriteriaQuery<Student> cq = cb.createQuery(Student.class);
+        Root<Student> rootEntry = cq.from(Student.class);
+        CriteriaQuery<Student> all = cq.select(rootEntry);
+        TypedQuery<Student> query = session.createQuery(all);
         return query.getResultList();
     }
 
