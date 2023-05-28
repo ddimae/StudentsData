@@ -41,7 +41,7 @@
 --%>
 <div>
     <form enctype="multipart/form-data" action="${pageContext.request.contextPath}/load_students" method="post">
-        <input type="file" accept=".xlsx"><button onclick="sortTable()"> Завантажити дані про групу </button>
+        <input type="file" accept=".xlsx"><button> Завантажити дані про групу </button>
     </form>
 </div>
 <div>
@@ -63,13 +63,13 @@
                     </form>
                 </td>
                 <td>
-                    <form action="save_students1">
+                    <form action="groups/save_students1">
                         <input type="hidden" name="id" value="${gr.id}">
                         <input class="buttonfortable" type="submit" value="Форма 1">
                     </form>
                 </td>
                 <td>
-                    <form action="save_students2">
+                    <form action="groups/save_students2">
                         <input type="hidden" name="id" value="${gr.id}">
                         <input class="buttonfortable" type="submit" value="Форма 2">
                     </form>

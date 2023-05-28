@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @WebServlet("/groups")
 public class GroupAllServlet extends HttpServlet {
@@ -23,6 +26,7 @@ public class GroupAllServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("GroupAllServlet#doGet");
         groups = DAOObjects.daoAcademicGroup.getAllList();
+        groups = groups.stream().sorted(Comparator.comparing(AcademicGroup::getGroupName)).toList();
         System.out.println(groups);
         request.setAttribute("groups", groups);
         String path = "/views/groups/groups.jsp";

@@ -54,8 +54,14 @@ public class TestStudents {
     }
 
     @Test
+    void TestAllGroup() {
+        List<AcademicGroup> groups = DAOObjects.daoAcademicGroup.getAllList();
+        System.out.println(groups);
+    }
+
+    @Test
     void ShowExpert() {
-        AcademicGroup grToFind = new AcademicGroup("КН-221в");
+        AcademicGroup grToFind = new AcademicGroup("KН-221в");
         AcademicGroup mygroup  = DAOObjects.daoAcademicGroup.findByKey(grToFind);
         mygroup.showInfo();
 

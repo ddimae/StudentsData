@@ -1,14 +1,16 @@
 import ntukhpi.semit.dde.studentsdata.doaccess.DAOObjects;
 import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
+import ntukhpi.semit.dde.studentsdata.files.ExcelUtilities;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ntukhpi.semit.dde.studentsdata.files.ExcelUtilities.readFromWBExcelFullToClearDB;
+import static ntukhpi.semit.dde.studentsdata.files.ExcelUtilities.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestExcel {
@@ -32,4 +34,30 @@ public class TestExcel {
         assertEquals(null,groupAfter);
 
     }
+
+    @Test
+    void TestSaveToExcelF1() throws IOException {
+
+       // String agName = "KN-221V";
+        String agName = "KН-221в";
+        String reportType = "F1";
+        AcademicGroup group = new AcademicGroup(agName);
+        AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
+        ExcelUtilities.saveToWBExcel(agName,groupFromDB,reportType);
+    }
+
+    @Test
+    void TestSaveToExcelF1_2() throws IOException {
+        // String agName = "KN-221V";
+        String agName = "KН-221в";
+        String reportType = "F1";
+        AcademicGroup group = new AcademicGroup(agName);
+        AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
+        String pathfile = STUDENTSDATA_FILES_FOLDER;
+        ExcelUtilities.saveToWBExcelWithName(pathfile,agName,groupFromDB,reportType);
+    }
+
+
+
+
 }
