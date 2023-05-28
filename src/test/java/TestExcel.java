@@ -37,26 +37,30 @@ public class TestExcel {
 
     @Test
     void TestSaveToExcelF1() throws IOException {
-
-       // String agName = "KN-221V";
         String agName = "KН-221в";
         String reportType = "F1";
         AcademicGroup group = new AcademicGroup(agName);
         AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
-        ExcelUtilities.saveToWBExcel(agName,groupFromDB,reportType);
+        ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType);
     }
 
     @Test
-    void TestSaveToExcelF1_2() throws IOException {
-        // String agName = "KN-221V";
+    void TestSaveToExcelF2() throws IOException {
         String agName = "KН-221в";
-        String reportType = "F1";
+        String reportType = "F2";
         AcademicGroup group = new AcademicGroup(agName);
         AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
-        String pathfile = STUDENTSDATA_FILES_FOLDER;
-        ExcelUtilities.saveToWBExcelWithName(pathfile,agName,groupFromDB,reportType);
+        ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType);
     }
 
+    @Test
+    void TestSaveToExcelF3() throws IOException {
+        String agName = "KН-221в";
+        String reportType = "F3";
+        AcademicGroup group = new AcademicGroup(agName);
+        AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
+        ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType);
+    }
 
 
 

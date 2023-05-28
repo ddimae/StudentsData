@@ -1,6 +1,7 @@
 package ntukhpi.semit.dde.studentsdata.entity;
 
 import jakarta.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +9,6 @@ import lombok.ToString;
 import ntukhpi.semit.dde.studentsdata.utils.Formats;
 import org.hibernate.annotations.ColumnDefault;
 
-
-import javax.validation.Constraint;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -30,15 +28,15 @@ public abstract class Person { //
     @NotNull
     @ToString.Include
     private String lastName;
-    @Column(name = "fname", nullable = true, length = 15)
+    @Column(name = "fname", length = 15)
     @NotNull
     @ToString.Include
     private String firstName;
-    @Column(name = "pname", nullable = true, length = 25)
+    @Column(name = "pname", length = 25)
     @NotNull
     @ToString.Include
     private String middleName;
-    @Column(name = "birthday",nullable = true)
+    @Column(name = "birthday")
     @ToString.Include
     private LocalDate dateOfBirth;
 
@@ -65,7 +63,7 @@ public abstract class Person { //
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
-        this.dateOfBirth = LocalDate.parse(dateOfBirthStr,Formats.FORMAT_DATE_UA);
+        this.dateOfBirth = LocalDate.parse(dateOfBirthStr, Formats.FORMAT_DATE_UA);
         contacts = new LinkedHashSet<>();
         addresses = new HashMap<>();
     }
@@ -124,10 +122,24 @@ public abstract class Person { //
 
     }
     public String initialsToString() {
-
         return "" + lastName +
                 (firstName!=null&&firstName.length()>0?" " + firstName.charAt(0)+".":"") +
                 (middleName!=null&&middleName.length()>0?middleName.charAt(0)+".":"");
+    }
+
+    public String fullNameToString() {
+        return "" + lastName +
+                (firstName!=null&&firstName.length()>0?" " + firstName:"") +
+                (middleName!=null&&middleName.length()>0?" " + middleName:"");
+    }
+
+    public String formattedBirthday() {
+        if (dateOfBirth!=null) {
+            return dateOfBirth.format(Formats.FORMAT_DATE_UA);
+        } else {
+            return "";
+        }
+
     }
 
     @Override

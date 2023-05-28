@@ -34,7 +34,7 @@ public class TestWorkWithExcel {
 
         String type = "F2";
 
-        System.out.println(saveToWBExcel(groupName, academicGroup, type));
+        System.out.println(saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,groupName, academicGroup, type));
             academicGroup.printStudents();
 
     }

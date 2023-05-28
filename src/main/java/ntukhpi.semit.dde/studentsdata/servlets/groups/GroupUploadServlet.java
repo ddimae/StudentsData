@@ -37,7 +37,7 @@ public class GroupUploadServlet extends HttpServlet {
         Long idGroup = Long.parseLong(request.getParameter("id"));
         AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findById(idGroup);
         String agName = groupFromDB.getGroupName();
-        String fullfilename = ExcelUtilities.saveToWBExcel(agName, groupFromDB, "F1");
+        String fullfilename = ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName, groupFromDB, "F1");
         try {
             //https://o7planning.org/11069/uploading-and-downloading-files-stored-to-hard-drive-with-java-servlet
             // Gets absolute path to root directory of web app.
