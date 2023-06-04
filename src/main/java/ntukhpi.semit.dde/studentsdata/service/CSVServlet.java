@@ -1,4 +1,4 @@
-package ntukhpi.semit.dde.studentsdata.servlets.service;
+package ntukhpi.semit.dde.studentsdata.service;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

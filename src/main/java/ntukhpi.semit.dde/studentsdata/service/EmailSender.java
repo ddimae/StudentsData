@@ -1,4 +1,4 @@
-package ntukhpi.semit.dde.studentsdata.servlets.service;
+package ntukhpi.semit.dde.studentsdata.service;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -17,7 +17,7 @@ import static ntukhpi.semit.dde.studentsdata.files.ExcelUtilities.STUDENTSDATA_F
 public class EmailSender {
     // EmailSender's email ID needs to be mentioned
     private static final String from = "isppd.semit@gmail.com";//this my email => recommended to change
-    private static final String password = "jawnfwghzcbgsiyk";//password created after turn on two-factor authorization
+    private static final String password = "kvswevtrbydksxrq";//password created after turn on two-factor authorization
 //  Created base on
 //  https://stackoverflow.com/questions/60654561/java-mail-cannot-connect-to-smtp-using-tls-or-ssl
 //  https://javarevisited.blogspot.com/2014/08/how-to-send-email-from-java-program-example.html#
