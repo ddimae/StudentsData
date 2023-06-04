@@ -12,15 +12,9 @@
 </head>
 
 <body>
-<style><%@include file="/StudentsData.css"%></style>
-
-<div class="login-page">
-        <div class="form">
-                <form action="groups" method="post" class="login-form">
-                        <button>START</button>
-                </form>
-        </div>
-</div>
-
+        <style><%@include file="/StudentsData.css"%></style>
+        <form action="groups" method="post">
+                <button>START</button>
+        </form>
 </body>
 </html>

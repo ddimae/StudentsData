@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @WebServlet("/edit_student")
 public class StudentEditServlet extends HttpServlet {
@@ -37,38 +38,38 @@ public class StudentEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("StudentEditServlet#doPost");
-//        //Take parameters
-//
-//
-//        // Create object
-//       Student stud
-//
-//        //Check presence this Student in database
-//        if () {
-//            request.setAttribute("error","Trying to input Student with sname, fname, pname and birsday stored in DB!!!");
-//            request.setAttribute("student", stud);
-//            request.setAttribute("id",0);
-//            String path = "/views/students/phone.jsp";
-//            ServletContext servletContext = getServletContext();
-//            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-//            requestDispatcher.forward(request, response);
-//        } else {
-//            //Call Insert
-//            boolean insertRes = DAOStudentsHBN.insert(stud);
-//            if (insertRes) {
-//                //back to listStudents
-//                String path = request.getContextPath() + "/students?id_group="+student.getAacademicGroup().getId();
-//                response.sendRedirect(path);
-//            } else {
-//                request.setAttribute("error", "Check data! Insert SQL mistake!!!");
-//                request.setAttribute("student", stud);
-//                request.setAttribute("id",0);
-//                String path = "/views/students/groups.jsp";
-//                ServletContext servletContext = getServletContext();
-//                RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-//                requestDispatcher.forward(request, response);
-//            }
-//        }
+        System.out.println("StudentEditServlet#doPost");
+
+        //Take parameters
+        String idStr = request.getParameter("id");
+        String idGroupStr = request.getParameter("id_group");
+        String birthdayStr = request.getParameter("birthday");
+        String contractStr = new String (request.getParameter("contract").getBytes("ISO-8859-1"), "utf-8");
+        String scholarshipStr = new String (request.getParameter("scholarship").getBytes("ISO-8859-1"), "utf-8");
+
+        //Transform data
+        Long id = Long.parseLong(idStr);
+        Long idGroup = Long.parseLong(idGroupStr);
+        LocalDate birthday = LocalDate.parse(birthdayStr);
+        boolean contract = "Контракт".equals(contractStr);
+        boolean scholarship = "Так".equals(scholarshipStr);
+
+        // Create object
+        Student studForUpdate = new Student("","","",birthday,contract,scholarship);
+        boolean updateOK = DAOObjects.daoStudent.update(id,studForUpdate);
+
+       //Check presence this Student in database
+        if (!updateOK) {
+            request.setAttribute("error","Trouble updating information about student!");
+            request.setAttribute("student", studForUpdate);
+            request.setAttribute("id",0);
+            String path = "/views/students/student.jsp";
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
+            requestDispatcher.forward(request, response);
+        } else {
+                String path = request.getContextPath() + "/students?id_group="+idGroup;
+                response.sendRedirect(path);
+            }
+        }
     }
-}

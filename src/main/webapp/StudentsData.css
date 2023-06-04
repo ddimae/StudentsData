@@ -1,63 +1,30 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 html, body {
-    font-family: "Roboto", sans-serif;
     margin:0;
     height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
 }
-.login-page {
-    width: 360px;
-    padding: 8% 0 0;
-    margin: auto;
-    color:#333333;
-}
-.form {
-    position: relative;
-    z-index: 1;
-    background: #DBD0BF;
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-.form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-.form button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #9BB8CC;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
+button {
+    margin-top:100px;
+    margin-left:auto;
+    margin-right:auto;
+    display: block;
+    background: #77aae0;
+    border-radius: 12px;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    line-height: 24px;
+    color: #0f0f0f;
+    border: none;
+    outline: none;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     cursor: pointer;
     font-weight: bold;
+    width:100px;
 }
-.form button:hover,.form button:active,.form button:focus {
-    background: #546D80;
-}
-
-.form .register-form {
-    display: none;
-}
-
-body {
-
-    background: #9BB8CC;
-    font-family: "Roboto", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+button:hover {
+    background: #356394;/* Цвет ссылки при наведении */
 }
