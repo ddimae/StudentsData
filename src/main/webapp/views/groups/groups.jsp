@@ -50,7 +50,7 @@
             <th>Назва групи</th>
             <th>Мова навчання</th>
             <th>Перелік студентів</th>
-            <th colspan="4">Зберегти у файл</th>
+            <th colspan="3">Зберегти у файл</th>
         </tr>
         <c:forEach items="${groups}" var="gr">
             <tr>
@@ -63,29 +63,34 @@
                     </form>
                 </td>
                 <td>
-                    <form action="groups/save_students1">
+                    <form action="groups/download_students" method="post">
                         <input type="hidden" name="id" value="${gr.id}">
-                        <input class="buttonfortable" type="submit" value="Форма 1">
+                        <select name="report_form">
+                            <option value="NO" selected>--Оберіть форму звіту--</option>
+                            <option value="F1">Форма 1</option>
+                            <option value="F2">Форма 2</option>
+                            <option value="F3">Форма 3</option>
+                            <option value="F4">Форма 4</option>
+                        </select>
+                        <input class="buttonfortable" type="submit" value="Завантажити">
                     </form>
                 </td>
                 <td>
-                    <form action="groups/save_students2">
-                        <input type="hidden" name="id" value="${gr.id}">
-                        <input class="buttonfortable" type="submit" value="Форма 2">
+                    <form action="groups/send_students" method="post">
+                        <p><input type="hidden" name="id" value="${gr.id}">
+                        <select name="report_form">
+                            <option value="NO" selected>--Оберіть форму звіту--</option>
+                            <option value="F1">Форма 1</option>
+                            <option value="F2">Форма 2</option>
+                            <option value="F3">Форма 3</option>
+                            <option value="F4">Форма 4</option>
+                        </select>
+                        </p>
+                        <p>email to: <input type="email" name="email_to"></p>
+                        <p><input class="buttonfortable" type="submit" value="Відправити на пошту"></p>
                     </form>
                 </td>
-                <td>
-                    <form action="save_students3">
-                        <input type="hidden" name="id" value="${gr.id}">
-                        <input class="buttonfortable" type="submit" value="Форма 3">
-                    </form>
-                </td>
-                <td>
-                    <form action="save_students4">
-                        <input type="hidden" name="id" value="${gr.id}">
-                        <input class="buttonfortable" type="submit" value="Форма 4">
-                    </form>
-                </td>
+
             </tr>
         </c:forEach>
     </table>

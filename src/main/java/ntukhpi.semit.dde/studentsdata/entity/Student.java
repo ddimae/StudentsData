@@ -1,6 +1,7 @@
 package ntukhpi.semit.dde.studentsdata.entity;
 
 import jakarta.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,6 @@ import ntukhpi.semit.dde.studentsdata.utils.KinshipDegree;
 import org.apache.poi.ss.usermodel.Row;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collections;
@@ -108,6 +108,21 @@ public class Student extends Person {
         }
         return sb.toString();
 
+    }
+    public String isContractToString(){
+        if (contract) {
+            return "Контракт";
+        } else {
+            return " ";
+        }
+    }
+
+    public String isTakeScholarshipToString(){
+        if (takeScholarship) {
+            return "Так";
+        } else {
+            return " ";
+        }
     }
 
     public String showInfoWithGroup(){
