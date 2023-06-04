@@ -3,14 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Телефон</title>
+    <title>Email</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <style>
-        <%@include file="phone.css" %>
+        <%@include file="email.css" %>
     </style>
     <c:if test="${fn:length(error)>0}">
         <div class="alert">
@@ -20,31 +20,28 @@
     </c:if>
 
     <div class="header">
-        <li><h4>Редагування номеру телефону</h4></li>
+        <li><h4>Редагування email</h4></li>
     </div>
 
-    <form <c:if test="${phone.id==0}">action="add_phone"</c:if>
-         <c:if test="${phone.id>0}">action="edit_phone"</c:if> method="post"
+    <form <c:if test="${email.id==0}">action="add_email"</c:if>
+         <c:if test="${email.id>0}">action="edit_email"</c:if> method="post"
          class="groupTable"
     >
-        <input type="hidden" name="id_phone" value="${phone.id}" required>
+        <input type="hidden" name="id_email" value="${email.id}" required>
         <input type="hidden" name="id_owner" value="${owner.id}" required>
+
 
         <table border="2" id="students_table">
             <tr>
-                <th for="phone_number" class="form-field-label">Номер телефону</th>
+                <th for="email" class="form-field-label">Email</th>
                 <td>
-                    <input name="phone_number"
-                           value="${phone.phoneNumber}"
+                    <input name="email"
+                           value="${email.email}"
                            class="form-field-input-input"
-                           id="phone_number"
+                           id="email"
                            required
-                           type="tel"
-                           name="phone_number"
-                           placeholder="Введіть номер телефону"
-                           pattern="[0-9]{12}"
-                           size="12"
-                           title="12 цифр без '+'">
+                           type="email"
+                           placeholder="Введіть email">
                 </td>
 
             </tr>
@@ -52,26 +49,24 @@
                 <th for="is_active" class="form-field-label">Чи доступний?</th>
                 <td>
                     <select class="form-field-input-input" id="is_active" name="active" required>
-                        <option <c:if test="${phone.active}">selected</c:if>>Активний</option>
-                        <option <c:if test="${not phone.active}">selected</c:if>>Неактивний</option>
+                        <option <c:if test="${email.active}">selected</c:if>>Активний</option>
+                        <option <c:if test="${not email.active}">selected</c:if>>Неактивний</option>
                     </select>
                 </td>
             </tr>
-
             <tr>
                 <th for="is_prior" class="form-field-label">Є основним?</th>
                 <td>
                     <select class="form-field-input-input" id="is_prior" name="prior" required>
-                        <option <c:if test="${phone.prior}">selected</c:if>>Основний</option>
-                        <option <c:if test="${not phone.prior}">selected</c:if>>Додатковий</option>
+                        <option <c:if test="${email.prior}">selected</c:if>>Основний</option>
+                        <option <c:if test="${not email.prior}">selected</c:if>>Додатковий</option>
                     </select>
                 </td>
             </tr>
         </table>
 
         <li><input class="form-btn" type="submit" value="Зберегти"></li>
-        <li><a class = "form-btn" href="phones?id_owner=${owner.id}">Назад</a></li>
+        <li><a class = "form-btn" href="emails?id_owner=${owner.id}">Назад</a></li>
     </form>
 </body>
-
 </html>
