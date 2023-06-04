@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
-    <title>Телефони</title>
+    <title>Emails</title>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,8 +11,9 @@
 </head>
 <body>
     <style>
-        <%@include file="phones_person.css" %>
+        <%@include file="emails_person.css" %>
     </style>
+
 
     <c:if test="${fn:length(message)>0}">
     <div class="alert">
@@ -24,63 +25,63 @@
     </c:if>
 
     <div class="header">
-        <li><h4>Власник: <span>${owner.initialsToString()}</span></h4></li>
-        <li>
-            <form action="add_phone">
-                <input type="hidden" name="id_owner" value="${owner.id}">
-                <input class="buttonforheader" type="submit" value="Додати телефон">
-            </form>
-        </li>
-        <li><a class = "form-btn" href="${ref_to_return}">Назад</a></li>
+            <li><h4>Власник: <span>${owner.initialsToString()}</span></h4></li>
+            <li>
+                <form action="add_email">
+                    <input type="hidden" name="id_owner" value="${owner.id}">
+                    <input class="buttonforheader" type="submit" value="Додати email">
+                </form>
+            </li>
+            <li><a class = "form-btn" href="${ref_to_return}">Назад</a></li>
     </div>
 
     <div class="groupTable">
-        <table border="2" id="phones_table">
+        <table border="2" id="emails_table">
             <tr>
-                <th>Номер телефону</th>
+                <th>Email</th>
                 <th>Актуальний</th>
                 <th>Основний</th>
                 <th colspan="2">Змінити статус</th>
                 <th>Вилучити</th>
             </tr>
-            <c:forEach items="${phones}" var="phone">
+            <c:forEach items="${emails}" var="email">
             <tr>
-                <td><c:out value="${phone.phoneNumber}"/></td>
+                <td><c:out value="${email.email}"/></td>
                 <td>
-                    <c:if test="${phone.active==true}">Активний</c:if>
-                    <c:if test="${phone.active==false}">Неактивний</c:if>
+                    <c:if test="${email.active==true}">Активний</c:if>
+                    <c:if test="${email.active==false}">Неактивний</c:if>
                 </td>
                 <td>
-                    <c:if test="${phone.prior==true}">Основний</c:if>
-                    <c:if test="${phone.prior==false}">Додатковий</c:if>
+                    <c:if test="${email.prior==true}">Основний</c:if>
+                    <c:if test="${email.prior==false}">Додатковий</c:if>
                 </td>
                 <td>
-                    <form action="phone_active">
-                        <input type="hidden" name="id_phone" value="${phone.id}">
+                    <form action="email_active">
+                        <input type="hidden" name="id_email" value="${email.id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit"
-                               <c:if test="${phone.active==false}">value="Активний"
+                               <c:if test="${email.active==false}">value="Активний"
                         </c:if>
-                               <c:if test="${phone.active==true}">value="Неактивний"
+                               <c:if test="${email.active==true}">value="Неактивний"
                         </c:if>
                         >
                     </form>
                 </td>
                 <td>
-                    <form action="phone_prior">
-                        <input type="hidden" name="id_phone" value="${phone.id}">
+                    <form action="email_prior">
+                        <input type="hidden" name="id_email" value="${email.id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit"
-                               <c:if test="${phone.prior==false}">value="Основний"
+                               <c:if test="${email.prior==false}">value="Основний"
                         </c:if>
-                               <c:if test="${phone.prior==true}">value="Додатковий"
+                               <c:if test="${email.prior==true}">value="Додатковий"
                         </c:if>
                         >
                     </form>
                 </td>
                 <td>
-                    <form action="delete_phone">
-                        <input type="hidden" name="id_phone" value="${phone.id}">
+                    <form action="delete_email">
+                        <input type="hidden" name="id_email" value="${email.id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit" value="Вилучити">
                     </form>
@@ -89,16 +90,18 @@
             </c:forEach>
         </table>
     </div>
+
+
     <script type="text/javascript">
         // For confirm deleting
         function confirmation() {
-            return confirm('Телефон буде вилучено. Продовжити?');
+            return confirm('Email буде вилучено. Продовжити?');
         }
 
         // For sorting
         function sortTable() {
             var table, rows, switching, i, x, y, shouldSwitch;
-            table = document.getElementById("phones_table");
+            table = document.getElementById("emails_table");
             switching = true;
             //Сделайте цикл, которая будет продолжаться до тех пор, пока
             //никакого переключения не было сделано:

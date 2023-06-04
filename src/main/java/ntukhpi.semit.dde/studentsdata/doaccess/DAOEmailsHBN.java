@@ -5,8 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import ntukhpi.semit.dde.studentsdata.entity.Email;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
-import ntukhpi.semit.dde.studentsdata.entity.Student;
+import ntukhpi.semit.dde.studentsdata.entity.Person;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -44,6 +43,28 @@ public class DAOEmailsHBN implements Idao<Email> {
             CriteriaQuery<Email> cr = cb.createQuery(Email.class);
             Root<Email> root = cr.from(Email.class);
             cr.select(root).where(cb.equal(root.get("email"), template.getEmail()));
+            Query<Email> query = session.createQuery(cr);
+            results = query.getResultList();
+            if (!results.isEmpty()) {
+                entityInDB = results.get(0);
+            }
+        } catch (Exception e) {
+            System.err.println("=== " + this.getClass() + "#findByID === Something went wrong!");
+        }
+        return entityInDB;
+    }
+
+    public Email findPrior(Person owner) {
+        Email entityInDB = null;
+        List<Email> results = null;
+        //Find in DB by id
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            //New approach
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Email> cr = cb.createQuery(Email.class);
+            Root<Email> root = cr.from(Email.class);
+            cr.select(root).where(cb.and(cb.equal(root.get("prior"), true)),
+                    cb.and(cb.equal(root.get("owner"), owner)));
             Query<Email> query = session.createQuery(cr);
             results = query.getResultList();
             if (!results.isEmpty()) {

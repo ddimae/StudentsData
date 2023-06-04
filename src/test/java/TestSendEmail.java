@@ -1,12 +1,5 @@
-import ntukhpi.semit.dde.studentsdata.doaccess.DAOObjects;
-import ntukhpi.semit.dde.studentsdata.entity.Student;
 import ntukhpi.semit.dde.studentsdata.files.ExcelUtilities;
-import ntukhpi.semit.dde.studentsdata.servlets.service.EmailSender;
-import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import ntukhpi.semit.dde.studentsdata.service.EmailSender;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

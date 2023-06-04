@@ -9,92 +9,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <style>
+        <%@include file="groups.css" %>
+    </style>
+    <div class="header">
+        <li><h4>Перелік груп</h4></li>
+        <li><input class="header-search" type="text" placeholder="Введіть номер групи" id="search-text" onkeyup="tableSearch()"></li>
 
-<style>
-    <%@include file="groups.css" %>
-</style>
-<div class="header1">
-    <div class="header-right">
-        <li style="float:left"><h1>Перелік груп</h1></li>
-        <!--
-        <li style="float:left"><a href="login" > На головну </a></li>
-        -->
-        <li style="float:right"><input class="header-input" type="text"
-                                       placeholder="Введіть номер групи" id="search-text"
-                                       onkeyup="tableSearch()">
-        </li>
- <!--
-        <li style="float:right">
-            <button class="header-button" onclick="sortTable()"> Сортувати за номером групи </button>
-        </li>
--->
+        <form enctype="multipart/form-data"
+              action="${pageContext.request.contextPath}/load_students"
+              method="post"
+        >
+            <input class="custom-file-input" type="file" accept=".xlsx"/>
+            <button  class="button1" onclick="sortTable()"> Завантажити дані про групу </button>
+        </form>
     </div>
-</div>
-<%--
-<c:if test="${not empty sessionScope.username}">
-<p>Active user: ${sessionScope.username}</p>
-<p>Session: ${sessionScope.session}</p>
-</c:if>
-<c:if test="${empty sessionScope.username}">
-<p>No login</p>
-</c:if>
---%>
-<div>
-    <form enctype="multipart/form-data" action="${pageContext.request.contextPath}/load_students" method="post">
-        <input type="file" accept=".xlsx"><button> Завантажити дані про групу </button>
-    </form>
-</div>
-<div>
-    <table border="2" id="groups_table">
-        <tr>
-            <th>Назва групи</th>
-            <th>Мова навчання</th>
-            <th>Перелік студентів</th>
-            <th colspan="3">Зберегти у файл</th>
-        </tr>
-        <c:forEach items="${groups}" var="gr">
-            <tr>
-                <td>${gr.groupName}</td>
-                <td>${gr.language}</td>
-                <td>
-                    <form action="students">
-                        <input type="hidden" name="id_group" value="${gr.id}">
-                        <input class="buttonfortable" type="submit" value="Перелік студентів">
-                    </form>
-                </td>
-                <td>
-                    <form action="groups/download_students" method="post">
-                        <input type="hidden" name="id" value="${gr.id}">
-                        <select name="report_form">
-                            <option value="NO" selected>--Оберіть форму звіту--</option>
-                            <option value="F1">Форма 1</option>
-                            <option value="F2">Форма 2</option>
-                            <option value="F3">Форма 3</option>
-                            <option value="F4">Форма 4</option>
-                        </select>
-                        <input class="buttonfortable" type="submit" value="Завантажити">
-                    </form>
-                </td>
-                <td>
-                    <form action="groups/send_students" method="post">
-                        <p><input type="hidden" name="id" value="${gr.id}">
-                        <select name="report_form">
-                            <option value="NO" selected>--Оберіть форму звіту--</option>
-                            <option value="F1">Форма 1</option>
-                            <option value="F2">Форма 2</option>
-                            <option value="F3">Форма 3</option>
-                            <option value="F4">Форма 4</option>
-                        </select>
-                        </p>
-                        <p>email to: <input type="email" name="email_to"></p>
-                        <p><input class="buttonfortable" type="submit" value="Відправити на пошту"></p>
-                    </form>
-                </td>
 
+    <div>
+        <table border="2" id="groups_table" class="groupTable">
+            <tr>
+                <th>Назва групи</th>
+                <th>Мова навчання</th>
+                <th>Перелік студентів</th>
+                <th colspan="3">Зберегти у файл</th>
             </tr>
-        </c:forEach>
-    </table>
-</div>
+            <c:forEach items="${groups}" var="gr">
+                <tr>
+                    <td>${gr.groupName}</td>
+                    <td>${gr.language}</td>
+                    <td>
+                        <form action="students">
+                            <input type="hidden" name="id_group" value="${gr.id}">
+                            <input class="buttonfortable" type="submit" value="Перелік студентів">
+                        </form>
+                    </td>
+
+                    <td>
+                        <form class="form-table" action="groups/download_students" method="post">
+                            <input type="hidden" name="id" value="${gr.id}">
+                            <select class="select-button" name="report_form">
+                                <option value="NO" selected>Оберіть форму звіту</option>
+                                <option value="F1">Форма 1</option>
+                                <option value="F2">Форма 2</option>
+                                <option value="F3">Форма 3</option>
+                                <option value="F4">Форма 4</option>
+                            </select>
+                            <input class="buttonfortable" type="submit" value="Завантажити">
+                        </form>
+                    </td>
+
+                    <td>
+                        <form class="form-table" action="groups/send_students" method="post">
+                            <p><input type="hidden" name="id" value="${gr.id}">
+                            <select class="select-button" name="report_form">
+                                <option value="NO" selected>Оберіть форму звіту</option>
+                                <option value="F1">Форма 1</option>
+                                <option value="F2">Форма 2</option>
+                                <option value="F3">Форма 3</option>
+                                <option value="F4">Форма 4</option>
+                            </select>
+                            </p>
+                            <p>Email to: <input type="email" class = "emailsearchbar" name="email_to"></p>
+                            <p><input class="buttonfortable" type="submit" value="Відправити на пошту"></p>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+
 <script type="text/javascript">
     // For confirm deleting
     function confirmation() {
@@ -123,7 +106,6 @@
 
         }
     }
-
     // For sorting
     function sortTable() {
         var table, rows, switching, i, x, y, shouldSwitch;
