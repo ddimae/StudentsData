@@ -28,11 +28,11 @@ public class TestWorkWithExcel {
 //        if (DAOObjects.daoAcademicGroup.saveAcademicGroupToDB(group)) {
 //            System.out.println("Дані збережені в БД");
 //        };
-        String groupName = "KN221b";
+        String groupName = "KN221a";
 
         AcademicGroup academicGroup = DAOObjects.daoAcademicGroup.findByKey(new AcademicGroup(groupName));
 
-        String type = "F2";
+        String type = "F3";
 
         System.out.println(saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,groupName, academicGroup, type));
             academicGroup.printStudents();

@@ -11,6 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -62,34 +63,34 @@ public class Address {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Address: ");
-        if (!country.isEmpty()) {
-            sb.append(System.lineSeparator()).append("country='").append(country).append('\'');
+        final StringBuilder sb = new StringBuilder();
+        if (!Objects.isNull(country) && !country.isEmpty()) {
+            sb.append(country);
         }
-        if (!region.isEmpty()) {
-            sb.append(System.lineSeparator()).append("region='").append(region).append('\'');
+        if (!Objects.isNull(region) && !region.isEmpty()) {
+            sb.append(", ").append(region);
         }
-        if (!city.isEmpty()) {
-            sb.append(System.lineSeparator()).append(System.lineSeparator()).append("city='").append(city).append('\'');
+        if (!Objects.isNull(city) && !city.isEmpty()) {
+            sb.append(", ").append(city);
         }
-        if (!address.isEmpty()) {
-            sb.append(System.lineSeparator()).append("address='").append(address).append('\'');
+        if (!Objects.isNull(address) && !address.isEmpty()) {
+            sb.append(", ").append(address);
         }
         return sb.toString();
     }
 
     public String toStringWithOwners() {
         final StringBuilder sb = new StringBuilder("Address: ");
-        if (country.length() > 0) {
+        if (!Objects.isNull(country) && country.length() > 0) {
             sb.append(System.lineSeparator()).append("country='").append(country).append('\'');
         }
-        if (!region.isEmpty() && region.length() > 0) {
+        if (!Objects.isNull(region) && !region.isEmpty() && region.length() > 0) {
             sb.append(System.lineSeparator()).append("region='").append(region).append('\'');
         }
-        if (!city.isEmpty() && city.length() > 0) {
+        if (!Objects.isNull(city) && !city.isEmpty() && city.length() > 0) {
             sb.append(System.lineSeparator()).append(System.lineSeparator()).append("city='").append(city).append('\'');
         }
-        if (!address.isEmpty() && address.length() > 0) {
+        if (!Objects.isNull(address) && !address.isEmpty() && address.length() > 0) {
             sb.append(System.lineSeparator()).append("address='").append(address).append('\'');
         }
         if (owners.isEmpty()) {

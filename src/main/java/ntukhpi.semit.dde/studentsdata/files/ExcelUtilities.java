@@ -1,10 +1,6 @@
 package ntukhpi.semit.dde.studentsdata.files;
 
-import ntukhpi.semit.dde.studentsdata.entity.AcademicGroup;
-import ntukhpi.semit.dde.studentsdata.entity.Student;
-import ntukhpi.semit.dde.studentsdata.entity.Email;
-import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
-import ntukhpi.semit.dde.studentsdata.entity.Contact;
+import ntukhpi.semit.dde.studentsdata.entity.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -15,10 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -171,7 +164,17 @@ public class ExcelUtilities {
                 case "F1" -> addRowByForm1(row, student, style);
                 case "F2" -> addRowByForm2(row, student, academicGroup.isHead(student), style, boldStyle);
                 case "F3" -> addRowByForm3(row, student, academicGroup.isHead(student), style, boldStyle, boldFont);
+                case "F4" -> addRowByForm4(row, student, academicGroup.isHead(student), style, boldStyle, boldFont);
             }
+        }
+
+
+        Row firstRow = sheet.getRow(0); // Отримуємо перший рядок таблиці
+        int numberOfColumns = firstRow.getLastCellNum(); // Отримуємо кількість використаних стовпців
+
+        // Налаштуйте автоматичну ширину для кожного стовпця
+        for (int i = 0; i < numberOfColumns; i++) {
+            sheet.autoSizeColumn(i);
         }
         //записати у файл
 //        Path filePath = Paths.get(RESULTS_FOLDER + groupName + "_" + type + ".xlsx");//
@@ -200,11 +203,7 @@ public class ExcelUtilities {
     }
 
     public static void addRowByForm2(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle) {
-        boldStyle.setAlignment(HorizontalAlignment.LEFT);
-
-        Cell fullNameCell = row.createCell(1);
-        fullNameCell.setCellStyle(isHead ? boldStyle : style);
-        fullNameCell.setCellValue(student.fullNameToString() + (isHead ? " (староста)" : ""));
+        createFullNameCell(row, student, isHead, style, boldStyle);
 
         Cell dateOfBirthCell = row.createCell(2);
         dateOfBirthCell.setCellStyle(style);
@@ -220,11 +219,7 @@ public class ExcelUtilities {
     }
 
     public static void addRowByForm3(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle, Font boldFont) {
-        boldStyle.setAlignment(HorizontalAlignment.LEFT);
-
-        Cell fullNameCell = row.createCell(1);
-        fullNameCell.setCellStyle(isHead ? boldStyle : style);
-        fullNameCell.setCellValue(student.fullNameToString() +  (isHead ? " (староста)" : ""));
+        createFullNameCell(row, student, isHead, style, boldStyle);
 
         Cell dateOfBirthCell = row.createCell(2);
         dateOfBirthCell.setCellStyle(style);
@@ -232,6 +227,81 @@ public class ExcelUtilities {
 
         Set<Contact> contacts = student.getContacts();
 
+        Cell phoneCell = row.createCell(3);
+        phoneCell.setCellStyle(style);
+        phoneCell.setCellValue(getStringOfPhones(boldFont, contacts));
+
+        Cell emailCell = row.createCell(4);
+        emailCell.setCellStyle(style);
+        emailCell.setCellValue(getStringOfEmails(boldFont, contacts));
+
+    }
+
+    public static void addRowByForm4(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle, Font boldFont) {
+        createFullNameCell(row, student, isHead, style, boldStyle);
+
+        Set<Contact> contacts = student.getContacts();
+
+        Cell phoneCell = row.createCell(2);
+        phoneCell.setCellStyle(style);
+        phoneCell.setCellValue(getStringOfPhones(boldFont, contacts));
+
+        Map<Address, Boolean> addresses = student.getAddresses();
+
+        Address firstTrueAddress = addresses.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue()) // Фільтруємо записи за значенням true
+                .map(Map.Entry::getKey) // Отримуємо ключ (Address)
+                .findFirst() // Отримуємо перший ключ
+                .orElse(null); // За замовчуванням, якщо ключ не знайдено
+
+        if (firstTrueAddress != null) {
+            System.out.println(firstTrueAddress);
+            Cell adressCell = row.createCell(3);
+            adressCell.setCellStyle(style);
+            adressCell.setCellValue(firstTrueAddress.toString());
+        }
+    }
+
+    private static void createFullNameCell(Row row, Student student, boolean isHead, CellStyle style, CellStyle boldStyle) {
+        boldStyle.setAlignment(HorizontalAlignment.LEFT);
+
+        Cell fullNameCell = row.createCell(1);
+        fullNameCell.setCellStyle(isHead ? boldStyle : style);
+        fullNameCell.setCellValue(student.fullNameToString() +  (isHead ? " (староста)" : ""));
+    }
+
+    private static RichTextString getStringOfEmails(Font boldFont, Set<Contact> contacts) {
+        Set<Email> emails = contacts.stream()
+                .filter(contact -> contact instanceof Email)
+                .map(contact -> (Email) contact)
+                .collect(Collectors.toSet());
+
+        String joinedEmails = emails.stream()
+                .map(Email::getEmail)
+                .collect(Collectors.joining(", "));
+
+        Email mainEmail = null;
+        for (Email email : emails) {
+            if (email.isPrior()) {
+                mainEmail = email;
+                break;
+            }
+        }
+
+        RichTextString richTextEmails = new XSSFRichTextString(joinedEmails);
+
+        if (mainEmail != null) {
+            String mainEmailText = mainEmail.getEmail();
+
+            int startIndex = joinedEmails.indexOf(mainEmailText);
+            int endIndex = startIndex + mainEmailText.length();
+            richTextEmails.applyFont(startIndex, endIndex, boldFont);
+        }
+        return richTextEmails;
+    }
+
+    private static RichTextString getStringOfPhones(Font boldFont, Set<Contact> contacts) {
         Set<PhoneNumber> phoneNumbers = contacts.stream()
                 .filter(contact -> contact instanceof PhoneNumber)
                 .map(contact -> (PhoneNumber) contact)
@@ -259,41 +329,7 @@ public class ExcelUtilities {
             richTextNumbers.applyFont(startIndex, endIndex, boldFont);
         }
 
-        Cell phoneCell = row.createCell(3);
-        phoneCell.setCellStyle(style);
-        phoneCell.setCellValue(richTextNumbers);
-
-        Set<Email> emails = contacts.stream()
-                .filter(contact -> contact instanceof Email)
-                .map(contact -> (Email) contact)
-                .collect(Collectors.toSet());
-
-        String joinedEmails = emails.stream()
-                .map(Email::getEmail)
-                .collect(Collectors.joining(", "));
-
-        Email mainEmail = null;
-        for (Email email : emails) {
-            if (email.isPrior()) {
-                mainEmail = email;
-                break;
-            }
-        }
-
-        RichTextString richTextEmails = new XSSFRichTextString(joinedEmails);
-
-        if (mainEmail != null) {
-            String mainEmailText = mainEmail.getEmail();
-
-            int startIndex = joinedEmails.indexOf(mainEmailText);
-            int endIndex = startIndex + mainEmailText.length();
-            richTextEmails.applyFont(startIndex, endIndex, boldFont);
-        }
-
-        Cell emailCell = row.createCell(4);
-        emailCell.setCellStyle(style);
-        emailCell.setCellValue(richTextEmails);
-
+        return richTextNumbers;
     }
 
 
