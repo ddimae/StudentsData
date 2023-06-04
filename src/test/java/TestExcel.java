@@ -59,15 +59,24 @@ public class TestExcel {
         String reportType = "F3";
         AcademicGroup group = new AcademicGroup(agName);
         AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
-        ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType);
+        System.out.println(ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType));
     }
 
     @Test
     void TestSaveToExcelF2_3() throws IOException {
         String agName = "KН-221в";
-        String reportType = "F2";
+        String reportType = "F3";
         AcademicGroup group = new AcademicGroup(agName);
         AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
         ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType);
+    }
+
+    @Test
+    void TestSaveToExcelF4() throws IOException {
+        String agName = "KN221a";
+        String reportType = "F4";
+        AcademicGroup group = new AcademicGroup(agName);
+        AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findByKey(group);
+        System.out.println(ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName,groupFromDB,reportType));
     }
 }
