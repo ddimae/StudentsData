@@ -69,17 +69,17 @@
                         </form>
                     </td>
                     <td>
-                        <form action="addreses">
+                        <form action="addresses">
                             <input type="hidden" name="id_owner" value="${stud.id}">
                             <input class="buttonfortable" type="submit" value="Адреси">
                         </form>
                     </td>
-                    <td>
-                        <form action="student_parents">
-                            <input type="hidden" name="id" value="${stud.id}">
-                            <input class="buttonfortable" type="submit" value="Батьки">
-                        </form>
-                    </td>
+<%--                    <td>--%>
+<%--                        <form action="student_parents">--%>
+<%--                            <input type="hidden" name="id" value="${stud.id}">--%>
+<%--                            <input class="buttonfortable" type="submit" value="Батьки">--%>
+<%--                        </form>--%>
+<%--                    </td>--%>
                 </tr>
             </c:forEach>
         </table>

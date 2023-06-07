@@ -31,7 +31,7 @@ public class Address {
     private String city;
     private String address;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "persons_adresses", joinColumns = @JoinColumn(name = "id_address"))
     @MapKeyJoinColumn(name = "id_owner")
     @Column(name = "current", nullable = false)
@@ -39,6 +39,7 @@ public class Address {
 	private Map<Person, Boolean> owners;
 
     public Address(String country, String region, String city, String address) {
+        this.id = 0L;
         this.country = country;
         this.region = region;
         this.city = city;

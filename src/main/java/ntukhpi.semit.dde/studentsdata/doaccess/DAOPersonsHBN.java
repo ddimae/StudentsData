@@ -5,12 +5,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import ntukhpi.semit.dde.studentsdata.entity.Person;
 import ntukhpi.semit.dde.studentsdata.entity.Student;
-import ntukhpi.semit.dde.studentsdata.entity.Parent;
-import ntukhpi.semit.dde.studentsdata.entity.Teacher;
 import ntukhpi.semit.dde.studentsdata.entity.PhoneNumber;
 import ntukhpi.semit.dde.studentsdata.entity.Email;
+import ntukhpi.semit.dde.studentsdata.entity.Address;
+import ntukhpi.semit.dde.studentsdata.entity.Person;
+import ntukhpi.semit.dde.studentsdata.entity.Teacher;
+import ntukhpi.semit.dde.studentsdata.entity.Parent;
+
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -240,5 +242,9 @@ public class DAOPersonsHBN implements Idao<Person> {
                     return "groups";
         }
         return "";
+    }
+
+    public List<Address> findAllAddressesByOwner(Person personInDB) {
+        return null;
     }
 }

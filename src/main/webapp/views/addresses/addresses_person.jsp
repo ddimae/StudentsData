@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
-    <title>Emails</title>
+    <title>Addresses</title>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
 </head>
 <body>
     <style>
-        <%@include file="emails_person.css" %>
+        <%@include file="addresses_person.css" %>
     </style>
 
 
@@ -29,59 +29,48 @@
             <li>
                 <form action="add_email">
                     <input type="hidden" name="id_owner" value="${owner.id}">
-                    <input class="buttonforheader" type="submit" value="Додати email">
+                    <input class="buttonforheader" type="submit" value="Додати адресу">
                 </form>
             </li>
             <li><a class = "form-btn" href="${ref_to_return}">Назад</a></li>
     </div>
 
     <div class="groupTable">
-        <table border="2" id="emails_table">
+        <table border="2" id="Addresses_table">
             <tr>
-                <th>Email</th>
-                <th>Актуальний</th>
-                <th>Основний</th>
-                <th colspan="2">Змінити статус</th>
+                <th>Країна</th>
+                <th>Регіон</th>
+                <th>Micтo</th>
+                <th>Адреса</th>
+                <th>Поточний</th>
+                <th>Змінити статус</th>
                 <th>Вилучити</th>
             </tr>
-            <c:forEach items="${emails}" var="email">
+            <c:forEach items="${addresses}" var="addr">
             <tr>
-                <td><c:out value="${email.email}"/></td>
+                <td><c:out value="${addr.country}"/></td>
+                <td><c:out value="${addr.region}"/></td>
+                <td><c:out value="${addr.city}"/></td>
+                <td><c:out value="${addr.address}"/></td>
                 <td>
-                    <c:if test="${email.active==true}">Активний</c:if>
-                    <c:if test="${email.active==false}">Неактивний</c:if>
+                    <c:if test="${addr.current==true}">Поточний</c:if>
+                    <c:if test="${addr.current==false}">Додатковий</c:if>
                 </td>
                 <td>
-                    <c:if test="${email.prior==true}">Основний</c:if>
-                    <c:if test="${email.prior==false}">Додатковий</c:if>
-                </td>
-                <td>
-                    <form action="email_active">
-                        <input type="hidden" name="id_email" value="${email.id}">
+                    <form action="address_current">
+                        <input type="hidden" name="id_address" value="${addr.id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit"
-                               <c:if test="${email.active==false}">value="Активний"
+                               <c:if test="${addr.current==false}">value="Поточний"
                                </c:if>
-                               <c:if test="${email.active==true}">value="Неактивний"
+                               <c:if test="${addr.current==true}">value="Додатковий"
                                </c:if>
                         >
                     </form>
                 </td>
                 <td>
-                    <form action="email_prior">
-                        <input type="hidden" name="id_email" value="${email.id}">
-                        <input type="hidden" name="id_owner" value="${owner.id}">
-                        <input class="buttonfortable" type="submit"
-                               <c:if test="${email.prior==false}">value="Основний"
-                        </c:if>
-                               <c:if test="${email.prior==true}">value="Додатковий"
-                        </c:if>
-                        >
-                    </form>
-                </td>
-                <td>
-                    <form action="delete_email">
-                        <input type="hidden" name="id_email" value="${email.id}">
+                    <form action="delete_address">
+                        <input type="hidden" name="id_address" value="${addr.id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit" value="Вилучити">
                     </form>
@@ -95,13 +84,13 @@
     <script type="text/javascript">
         // For confirm deleting
         function confirmation() {
-            return confirm('Email буде вилучено. Продовжити?');
+            return confirm('Address буде вилучено. Продовжити?');
         }
 
         // For sorting
         function sortTable() {
             var table, rows, switching, i, x, y, shouldSwitch;
-            table = document.getElementById("emails_table");
+            table = document.getElementById("addresses_table");
             switching = true;
             //Сделайте цикл, которая будет продолжаться до тех пор, пока
             //никакого переключения не было сделано:

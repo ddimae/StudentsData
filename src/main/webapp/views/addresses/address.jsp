@@ -11,7 +11,7 @@
 
 <body>
     <style>
-        <%@include file="email.css" %>
+        <%@include file="address.css" %>
     </style>
     <c:if test="${fn:length(error)>0}">
         <div class="alert">
@@ -24,7 +24,7 @@
         <li><h4>Редагування email</h4></li>
     </div>
 
-    <form <c:if test="${email.id==0}">action="add_email"</c:if>
+    <form <c:if test="${address.id==0}">action="add_email"</c:if>
          <c:if test="${email.id>0}">action="edit_email"</c:if> method="post"
          class="groupTable"
     >
