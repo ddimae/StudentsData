@@ -22,15 +22,16 @@ public class AddressRemoveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("AddressRemoveServlet#doGet");
-        Long id_owner = Long.parseLong(request.getParameter("id_owner"));
-        Person owner = DAOObjects.daoPerson.findById(id_owner);
+        Long idOwner = Long.parseLong(request.getParameter("id_owner"));
+        Person owner = DAOObjects.daoPerson.findById(idOwner);
         System.out.println(owner.getClass() + ": " + owner);
-        Long id_address = Long.parseLong(request.getParameter("id_address"));
-        Address addressToDel = DAOObjects.daoAddress.findById(id_address);
+        Long idAddress = Long.parseLong(request.getParameter("id_address"));
+        System.out.println("Address Id = "+idAddress);
+        Address addressToDel = DAOObjects.daoAddress.findById(idAddress);
         myAddress = addressToDel;
         request.setAttribute("error", null);
         System.out.println("addressToDel:" + addressToDel);
-        request.setAttribute("address", addressToDel);
+        request.setAttribute("addr", addressToDel);
         request.setAttribute("owner", owner);
         String path = "/views/addresses/address_delete.jsp";
         ServletContext servletContext = getServletContext();
@@ -42,22 +43,22 @@ public class AddressRemoveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
         System.out.println("AddressRemoveServlet#doPost");
-        String idEmailStr = request.getParameter("id_address");
-        Long idAddressDel = Long.parseLong(idEmailStr);
+        String idAddressStr = request.getParameter("id_address");
+        Long idAddressDel = Long.parseLong(idAddressStr);
         String idOwnerStr = request.getParameter("id_owner");
         Long idOwner = Long.parseLong(idOwnerStr);
         //Call Update
         boolean deleteRes = DAOObjects.daoAddress.delete(idAddressDel);
         if (deleteRes) {
-            //back to list of person's emails
+            //back to list of person's addresses
             System.out.println("Address вилучений!!!");
             String path = request.getContextPath() + "/addresses?id_owner="+idOwner+ "&msgcode=12";
             response.sendRedirect(path);
         } else {
             System.out.println("Помилка вилучення! Delete SQL mistake!!!");
             request.setAttribute("error", ContactMessages.MESSAGE13.getText());
-            request.setAttribute("address", myAddress);
-            request.setAttribute("owner", idEmailStr); //!!!!
+            request.setAttribute("addr", myAddress);
+            request.setAttribute("owner", idAddressStr); //!!!!
             String path = "/views/addresses/address_delete.jsp";
             ServletContext servletContext = getServletContext();
             RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);

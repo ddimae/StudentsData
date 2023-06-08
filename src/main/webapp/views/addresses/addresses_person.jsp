@@ -27,7 +27,7 @@
     <div class="header">
             <li><h4>Власник: <span>${owner.initialsToString()}</span></h4></li>
             <li>
-                <form action="add_email">
+                <form action="add_address">
                     <input type="hidden" name="id_owner" value="${owner.id}">
                     <input class="buttonforheader" type="submit" value="Додати адресу">
                 </form>
@@ -46,31 +46,31 @@
                 <th>Змінити статус</th>
                 <th>Вилучити</th>
             </tr>
-            <c:forEach items="${addresses}" var="addr">
+            <c:forEach items="${addresses}" var="addrEntity">
             <tr>
-                <td><c:out value="${addr.country}"/></td>
-                <td><c:out value="${addr.region}"/></td>
-                <td><c:out value="${addr.city}"/></td>
-                <td><c:out value="${addr.address}"/></td>
+                <td><c:out value="${addrEntity.getKey().country}"/></td>
+                <td><c:out value="${addrEntity.getKey().region}"/></td>
+                <td><c:out value="${addrEntity.getKey().city}"/></td>
+                <td><c:out value="${addrEntity.getKey().address}"/></td>
                 <td>
-                    <c:if test="${addr.current==true}">Поточний</c:if>
-                    <c:if test="${addr.current==false}">Додатковий</c:if>
+                    <c:if test="${addrEntity.getValue()==true}">Основний</c:if>
+                    <c:if test="${addrEntity.getValue()==false}">Додатковий</c:if>
                 </td>
                 <td>
                     <form action="address_current">
-                        <input type="hidden" name="id_address" value="${addr.id}">
+                        <input type="hidden" name="id_address" value="${addrEntity.getKey().id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit"
-                               <c:if test="${addr.current==false}">value="Поточний"
+                               <c:if test="${addrEntity.getValue()==false}">value="Основний"
                                </c:if>
-                               <c:if test="${addr.current==true}">value="Додатковий"
+                               <c:if test="${addrEntity.getValue()==true}">value="Додатковий"
                                </c:if>
                         >
                     </form>
                 </td>
                 <td>
                     <form action="delete_address">
-                        <input type="hidden" name="id_address" value="${addr.id}">
+                        <input type="hidden" name="id_address" value="${addrEntity.getKey().id}">
                         <input type="hidden" name="id_owner" value="${owner.id}">
                         <input class="buttonfortable" type="submit" value="Вилучити">
                     </form>

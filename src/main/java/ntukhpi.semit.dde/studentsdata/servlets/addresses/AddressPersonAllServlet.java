@@ -2,7 +2,6 @@ package ntukhpi.semit.dde.studentsdata.servlets.addresses;
 
 import ntukhpi.semit.dde.studentsdata.doaccess.DAOObjects;
 import ntukhpi.semit.dde.studentsdata.entity.Address;
-import ntukhpi.semit.dde.studentsdata.entity.Email;
 import ntukhpi.semit.dde.studentsdata.entity.Person;
 import ntukhpi.semit.dde.studentsdata.utils.ContactMessages;
 
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/addresses")
 public class AddressPersonAllServlet extends HttpServlet {
@@ -26,7 +26,7 @@ public class AddressPersonAllServlet extends HttpServlet {
         Person personInDB = DAOObjects.daoPerson.findById(id_owner);
         System.out.println(personInDB);
         request.setAttribute("owner", personInDB);
-        List<Address> addresses = DAOObjects.daoPerson.findAllAddressesByOwner(personInDB);
+        Map<Address,Boolean> addresses = personInDB.getAddresses();
         System.out.println(addresses);
         request.setAttribute("addresses", addresses);
         request.setAttribute("ref_to_return", DAOObjects.daoPerson.linkToReturn(personInDB));

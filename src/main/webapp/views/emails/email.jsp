@@ -24,15 +24,12 @@
         <li><h4>Редагування email</h4></li>
     </div>
 
-    <form <c:if test="${email.id==0}">action="add_email"</c:if>
-         <c:if test="${email.id>0}">action="edit_email"</c:if> method="post"
-         class="groupTable"
-    >
+    <form action="add_email" method="post" class="groupTable">
         <input type="hidden" name="id_email" value="${email.id}" required>
         <input type="hidden" name="id_owner" value="${owner.id}" required>
 
 
-        <table border="2" id="students_table">
+        <table border="2" >
             <tr>
                 <th for="email" class="form-field-label">Email</th>
                 <td>

@@ -21,53 +21,73 @@
     </c:if>
 
     <div class="header">
-        <li><h4>Редагування email</h4></li>
+        <li><h4>Адреса</h4></li>
     </div>
 
-    <form <c:if test="${address.id==0}">action="add_email"</c:if>
-         <c:if test="${email.id>0}">action="edit_email"</c:if> method="post"
-         class="groupTable"
-    >
-        <input type="hidden" name="id_email" value="${email.id}" required>
+    <form action="add_address"  method="post" class="groupTable">
+        <input type="hidden" name="id_address" value="${addr.id}" required>
         <input type="hidden" name="id_owner" value="${owner.id}" required>
-
-
-        <table border="2" id="students_table">
+        <table border="2" >
             <tr>
-                <th for="email" class="form-field-label">Email</th>
+                <th for="country" class="form-field-label">Країна</th>
                 <td>
-                    <input name="email"
-                           value="${email.email}"
+                    <input name="country"
+                           value="${addr.country}"
                            class="form-field-input-input"
-                           id="email"
+                           id="country"
                            required
-                           type="email"
-                           placeholder="Введіть email">
-                </td>
-
-            </tr>
-            <tr>
-                <th for="is_active" class="form-field-label">Чи доступний?</th>
-                <td>
-                    <select class="form-field-input-input" id="is_active" name="active" required>
-                        <option <c:if test="${email.active}">selected</c:if>>Активний</option>
-                        <option <c:if test="${not email.active}">selected</c:if>>Неактивний</option>
-                    </select>
+                           type="text"
+                           placeholder="Країна">
                 </td>
             </tr>
             <tr>
-                <th for="is_prior" class="form-field-label">Є основним?</th>
+                <th for="region" class="form-field-label">Область (регіон)</th>
                 <td>
-                    <select class="form-field-input-input" id="is_prior" name="prior" required>
-                        <option <c:if test="${email.prior}">selected</c:if>>Основний</option>
-                        <option <c:if test="${not email.prior}">selected</c:if>>Додатковий</option>
-                    </select>
+                    <input name="region"
+                           value="${addr.region}"
+                           class="form-field-input-input"
+                           id="region"
+<%--                           required--%>
+                           type="text"
+                           placeholder="Область (регіон)">
                 </td>
             </tr>
+            <tr>
+                <th for="city" class="form-field-label">Населений пункт</th>
+                <td>
+                    <input name="city"
+                           value="${addr.city}"
+                           class="form-field-input-input"
+                           id="city"
+<%--                           required--%>
+                           type="text"
+                           placeholder="Населений пункт">
+                </td>
+            </tr>
+            <tr>
+                <th for="address" class="form-field-label">Адреса</th>
+                <td>
+                    <input name="address"
+                           value="${addr.address}"
+                           class="form-field-input-input"
+                           id="address"
+                    <%--                           required--%>
+                           type="text"
+                           placeholder="Адреса">
+                </td>
+            </tr>
+<%--            <tr>--%>
+<%--                <th for="is_prior" class="form-field-label">Поточний?</th>--%>
+<%--                <td>--%>
+<%--                    <select class="form-field-input-input" id="is_prior" name="current" required>--%>
+<%--                        <option <c:if test="${owner.getAddresses().get(addr)}==true">selected</c:if>>Основний</option>--%>
+<%--                        <option <c:if test="${not owner.getAddresses().get(addr)}">selected</c:if>>Додатковий</option>--%>
+<%--                    </select>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
         </table>
-
         <li><input class="form-btn" type="submit" value="Зберегти"></li>
-        <li><a class = "form-btn" href="emails?id_owner=${owner.id}">Назад</a></li>
+        <li><a class = "form-btn" href="addresses?id_owner=${owner.id}">Назад</a></li>
     </form>
 </body>
 </html>

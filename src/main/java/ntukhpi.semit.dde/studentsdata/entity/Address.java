@@ -26,6 +26,7 @@ public class Address {
     @Column(name = "id")
     private Long id;  //Long!!! not long, not int
 
+    @Column(nullable = false)
     private String country;
     private String region;
     private String city;
@@ -47,6 +48,27 @@ public class Address {
         owners = new HashMap<>();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Address address1 = (Address) o;
+
+        if (!country.equals(address1.country)) return false;
+        if (!Objects.equals(region, address1.region)) return false;
+        if (!Objects.equals(city, address1.city)) return false;
+        return Objects.equals(address, address1.address);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = country.hashCode();
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
+    }
 
     //for owners
     public Map<Person, Boolean> getOwners() {

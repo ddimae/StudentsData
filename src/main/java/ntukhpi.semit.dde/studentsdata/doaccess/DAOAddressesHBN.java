@@ -3,14 +3,15 @@ package ntukhpi.semit.dde.studentsdata.doaccess;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import ntukhpi.semit.dde.studentsdata.entity.Address;
-import ntukhpi.semit.dde.studentsdata.entity.Person;
 import ntukhpi.semit.dde.studentsdata.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +58,53 @@ public class DAOAddressesHBN implements Idao<Address> {
 
     @Override
     public Address findByKey(Address template) {
-        return null;
+        Address entityInDB = null;
+        List<Address> results = null;
+        //Find in DB by KEY FIELD -
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Address> cr = cb.createQuery(Address.class);
+            Root<Address> root = cr.from(Address.class);
+            //Here you must adapt select condition to your set of key fields
+            List<Predicate> predicateList = new ArrayList<>();
+            //Набор умов для рівності - спіпадає країна
+            predicateList.add(cb.equal(root.get("country"), template.getCountry()));
+            //якщо не пусто - співпадає регіон
+            final String region = template.getRegion();
+            if (region == null ) {  //||(region!=null&&region.length()==0)
+                predicateList.add(cb.isNull(root.get("region")));
+            } else {
+                predicateList.add(cb.equal(root.get("region"), template.getRegion()));
+            }
+            //якщо не пусто - співпадає місто
+            final String city = template.getCountry();
+            if (city == null) {
+                predicateList.add(cb.isNull(root.get("city")));
+            } else {
+                predicateList.add(cb.equal(root.get("city"), template.getCity()));
+            }
+            //якщо не пусто - співпадає адреса
+            final String address = template.getAddress();
+            if (address == null) {
+                predicateList.add(cb.isNull(root.get("address")));
+            } else {
+                predicateList.add(cb.equal(root.get("address"), template.getAddress()));
+            }
+            Predicate[] predicates = predicateList.toArray(new Predicate[0]);
+            cr.select(root).where(predicates);
+            Query<Address> query = session.createQuery(cr);
+            results = query.getResultList();
+            if (!results.isEmpty()) {
+                entityInDB = results.get(0);
+//                System.out.println("=== " + this.getClass() + "#findByKey ===");
+//                System.out.println(entityInDB);
+            } else {
+                System.out.println("=== " + this.getClass() + "#findByKey === NOT FOUND");
+            }
+        } catch (Exception e) {
+            System.err.println("=== " + this.getClass() + "#findByKey === Something went wrong!");
+        }
+        return entityInDB;
     }
 
     @Override

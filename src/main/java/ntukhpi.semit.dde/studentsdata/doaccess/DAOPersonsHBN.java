@@ -20,6 +20,7 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DAOPersonsHBN implements Idao<Person> {
 
@@ -162,6 +163,36 @@ public class DAOPersonsHBN implements Idao<Person> {
         return updateOK;
     }
 
+    public boolean updateAddresses(Long id, Person entityToUpdate) {
+        Transaction transaction = null;
+        boolean updateOK = false;
+        //Find entity by id
+        Person entityById = findById(id);
+        if (entityById != null) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                //prepare entity for update
+                // Или добавляются новые, или обновляется статус
+                for (Map.Entry<Address,Boolean> e : entityToUpdate.getAddresses().entrySet()) {
+                    entityById.addAddress(e.getKey(),e.getValue());
+                }
+                entityById.setDateOfBirth(entityToUpdate.getDateOfBirth());
+                // start a transaction
+                transaction = session.beginTransaction();
+                // update the Employee objects
+                session.update(entityById);
+                // commit transaction
+                transaction.commit();
+                updateOK = true;
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                System.err.println("=== " + this.getClass() + "#update === Something went wrong!");
+            }
+        }
+        return updateOK;
+    }
+
     @Override
     public boolean delete(Long id) {
         Transaction transaction = null;
@@ -244,7 +275,26 @@ public class DAOPersonsHBN implements Idao<Person> {
         return "";
     }
 
-    public List<Address> findAllAddressesByOwner(Person personInDB) {
-        return null;
-    }
+//    public List<Address> findAllAddressesByOwner(Person owner) {
+////        https://russianblogs.com/article/4041647168/
+////        @Override
+////        public Page<Address> findAll(Pageable pageable,Address address) {
+////            return addressRepository.findAll((Root<Address> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+////                List<Predicate> predicates = new ArrayList<Predicate>();
+////                if(null!=address.getId()&&!"".equals(address.getId()))
+////                    predicates.add(cb.equal(root.get("id").as(Integer.class),address.getId()));
+////                if(null!=address.getWebUser()&&!"".equals(address.getWebUser()))
+////                    predicates.add(cb.equal(root.<WebUser>get("webUser").<Integer>get("id"),address.getWebUser().getId()));
+////                return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+////            },pageable);
+////        }
+//
+//        Person ownerInDB = findByKey(owner);
+//        List<Address> results = DAOObjects.daoAddress.getAllList();
+//        if (results!=null){
+//            List<Address> resultsByOwner = results.stream().filter(addr ->(addr.getOwners().containsKey(ownerInDB))).toList();
+//            return resultsByOwner;
+//        }
+//        return results;
+//    }
 }

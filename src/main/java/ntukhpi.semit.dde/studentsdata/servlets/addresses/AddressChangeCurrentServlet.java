@@ -18,66 +18,58 @@ public class AddressChangeCurrentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("AddressChangeCurrentServlet#doGet");
-//        //Get parameters
-//        String idEmailStr = request.getParameter("id_email");
-////        System.out.println(idEmailStr);
-//        String idOwnerStr = request.getParameter("id_owner");
-////        System.out.println(idOwnerStr);
-//
-//        // Find objects
-//        Long idEmail = Long.parseLong(idEmailStr);
-////        System.out.println(idEmail);
-//        Long idOwner = Long.parseLong(idOwnerStr);
-////        System.out.println(idOwner);
-////        System.out.println(email);
-//        Person owner = DAOObjects.daoPerson.findById(idOwner);
-//        Email email = DAOObjects.daoEmail.findById(idEmail);
-//        //Пошук поточного контакта "Основний"
-//        Email emailPrior = DAOObjects.daoEmail.findPrior(owner);
-//        //Якщо планується неактивний email зробити основним,
-//        // то така зміна є неможливою
-//        if (!email.isPrior()&&!email.isActive()) {
-//            System.out.println("Зробити \"Неактивний\" email \"Основним\" неможливо !!!");
-//            String path = request.getContextPath() + "/emails?id_owner=" + idOwner+ "&msgcode=5";
-//            response.sendRedirect(path);
-//            return;
-//        }
-//        // Готується зміна на протилежне
-//        email.setPrior(!email.isPrior());
-//        //Call Update
-//        boolean updateRes = false;
-//        if (emailPrior != null&&!emailPrior.equals(email)) {
-//            //спочатку зміна email поточного основного у додатковий
-//            emailPrior.setPrior(!email.isPrior());
-//            updateRes = DAOObjects.daoEmail.update(emailPrior.getId(), emailPrior);
-//            if (!updateRes) {
-//                System.out.println("Помилка скидання Основного email! Update SQL mistake!!!");
-//                String path = request.getContextPath() + "/emails?id_owner=" + idOwner+ "&msgcode=4";
-//                response.sendRedirect(path);
-//                return;
-//            }
-//        }
-//        //Встановлюємо поточний телефон як основний
-//        updateRes = DAOObjects.daoEmail.update(email.getId(), email);
-//        if (updateRes) {
-//            //back to emails_persons
-//            if (email.equals(emailPrior)&&!email.isPrior()) {
-//                System.out.println("\"Основний\" email вилучено!");
-//                String path = request.getContextPath() + "/emails?id_owner=" + idOwner+ "&msgcode=6";
-//                response.sendRedirect(path);
-//                return;
-//            } else {
-//                System.out.println("\"Основний\" email змінено!");
-//                String path = request.getContextPath() + "/emails?id_owner=" + idOwner+ "&msgcode=7";
-//                response.sendRedirect(path);
-//                return;
-//            }
-//
-//        } else {
-//            System.out.println("Помилка оновлення! Перевірте наявність email із статусом \"Основний\"! Update SQL mistake!!!");
-//            String path = request.getContextPath() + "/emails?id_owner="+idOwner+ "&msgcode=8";
-//            response.sendRedirect(path);
-//        }
+        //Get parameters
+        String idAddressStr = request.getParameter("id_address");
+//        System.out.println(idAddressStr);
+        String idOwnerStr = request.getParameter("id_owner");
+//        System.out.println(idOwnerStr);
+
+        // Find objects
+        Long idAddress = Long.parseLong(idAddressStr);
+//        System.out.println(idAddressStr);
+        Long idOwner = Long.parseLong(idOwnerStr);
+//        System.out.println(idOwner);
+        Person owner = DAOObjects.daoPerson.findById(idOwner);
+        Address address = DAOObjects.daoAddress.findById(idAddress);
+        //Пошук поточного контакта "Основний"
+        Address addressCurrent = owner.getCurrentAddress();
+        // Готується зміна на протилежне
+        Boolean newCurrentValue = !owner.getCurrent(address);
+        //Call Update
+        boolean updateRes = false;
+        if (addressCurrent != null&&!addressCurrent.equals(address)) {
+            //спочатку зміна address поточного основного у додатковий
+            owner.setCurrent(addressCurrent,!owner.getCurrent(addressCurrent));
+            updateRes = DAOObjects.daoPerson.updateAddresses(owner.getId(), owner);
+            if (!updateRes) {
+                System.out.println("Помилка скидання Основного address! Update SQL mistake!!!");
+                String path = request.getContextPath() + "/addresses?id_owner=" + idOwner+ "&msgcode=4";
+                response.sendRedirect(path);
+                return;
+            }
+        }
+        //Встановлюємо поточний address як основний
+        owner.setCurrent(address,newCurrentValue);
+        updateRes = DAOObjects.daoPerson.updateAddresses(owner.getId(), owner);
+        if (updateRes) {
+            //back to addresses_persons
+            if (address.equals(addressCurrent)&&!newCurrentValue) {
+                System.out.println("\"Основний\" address вилучено!");
+                String path = request.getContextPath() + "/addresses?id_owner=" + idOwner+ "&msgcode=6";
+                response.sendRedirect(path);
+                return;
+            } else {
+                System.out.println("\"Основний\" address змінено!");
+                String path = request.getContextPath() + "/addresses?id_owner=" + idOwner+ "&msgcode=7";
+                response.sendRedirect(path);
+                return;
+            }
+
+        } else {
+            System.out.println("Помилка оновлення! Перевірте наявність address із статусом \"Основний\"! Update SQL mistake!!!");
+            String path = request.getContextPath() + "/addresses?id_owner="+idOwner+ "&msgcode=8";
+            response.sendRedirect(path);
+        }
     }
 
     @Override

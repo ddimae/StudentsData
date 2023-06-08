@@ -30,7 +30,7 @@
 
     <c:if test="${email.id > 0}">
         <form style="alignment: center" action="delete_email" method="post" class="groupTable">
-            <table border="2" id="students_table">
+            <table border="2" >
                 <tr>
                     <th class="form-field-label">Email:</th>
                     <td>

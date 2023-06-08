@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @WebServlet("/add_address")
 public class AddressPersonAddServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("AddressPersonAddServlet#doGet");
@@ -23,13 +24,14 @@ public class AddressPersonAddServlet extends HttpServlet {
         Person owner = DAOObjects.daoPerson.findById(id_owner);
         System.out.println(owner.getClass() + ": " + owner);
         request.setAttribute("error", "");
+        Address addrFromAttr = (Address) request.getAttribute("address");
         Address addressToIns = new Address("", "", "", "");
         //Now id = null!!! We must set not null value!!!
         addressToIns.setId(0l);
         System.out.println("addressToIns:" + addressToIns);
-        request.setAttribute("address", addressToIns);
+        request.setAttribute("addr", addressToIns);
         request.setAttribute("owner", owner);
-        String path = "/views/emails/email.jsp";
+        String path = "/views/addresses/address.jsp";
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
         requestDispatcher.forward(request, response);
@@ -43,15 +45,15 @@ public class AddressPersonAddServlet extends HttpServlet {
 //        System.out.println(idAddressStr);
         String idOwnerStr = request.getParameter("id_owner");
 //        System.out.println(idOwnerStr);
-        String country = request.getParameter("country");
+        String country = new String(request.getParameter("country").getBytes("ISO-8859-1"), "utf-8");
 //        System.out.println(country);
-        String region = request.getParameter("region");
+        String region = new String(request.getParameter("region").getBytes("ISO-8859-1"), "utf-8");
 //        System.out.println(region);
-        String city = request.getParameter("city");
+        String city = new String(request.getParameter("city").getBytes("ISO-8859-1"), "utf-8");
 //        System.out.println(city);
-        String address = request.getParameter("address");
+        String address = new String(request.getParameter("address").getBytes("ISO-8859-1"), "utf-8");
 //        System.out.println(address);
-        String currentStr = new String(request.getParameter("current").getBytes("ISO-8859-1"), "utf-8");
+//        String currentStr = new String(request.getParameter("current").getBytes("ISO-8859-1"), "utf-8");
 //        System.out.println(currentStr);
 
         // Create object
@@ -59,37 +61,19 @@ public class AddressPersonAddServlet extends HttpServlet {
 //        System.out.println(idAddress);
         Long idOwner = Long.parseLong(idOwnerStr);
 //        System.out.println(idOwner);
-        boolean current = "Поточний".equals(currentStr);
+        boolean current = false;
+//        TODO
+//        boolean current = "Основний".equals(currentStr);
 //        System.out.println("Поточний = " + currentStr);
         Person owner = DAOObjects.daoPerson.findById(idOwner);
-        Address addressIns = new Address(country,region,city,address);
+        Address addressIns = new Address(country, region, city, address);
         addressIns.setId(idAddress);
+        addressIns.addOwner(owner, current);
 
-//        if (email.isPrior() && !email.isActive()) {
-//            System.out.println("\"Неактивний\" email не може бути \"Основним\"!!!");
-//            request.setAttribute("error", ContactMessages.MESSAGE03.getText());
-//            request.setAttribute("email", email);
-//            request.setAttribute("owner", owner);
-//            String path = "/views/emails/email.jsp";
-//            ServletContext servletContext = getServletContext();
-//            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-//            requestDispatcher.forward(request, response);
-//            return;
-//        }
         //Пошук поточного контакта "Основний"
-        //Якщо новий контакт є основним, то поточний сбрасується у додатковий
-//        Email emailPrior = DAOObjects.daoEmail.findPrior(owner);
-//        if (emailPrior != null && email.isPrior()) {
-//            //спочатку зміна телефону поточного основного у додатковий
-//            emailPrior.setPrior(!email.isPrior());
-//            boolean updateRes = DAOObjects.daoEmail.update(emailPrior.getId(), emailPrior);
-//            if (!updateRes) {
-//                System.out.println("Помилка скидання Основного email! Update SQL mistake!!!");
-//                String path = request.getContextPath() + "/emails?id_owner=" + idOwner + "&msgcode=4";
-//                response.sendRedirect(path);
-//                return;
-//            }
-//        }
+        //Якщо новий контакт є основним, то поточний "Основний" сбрасується у додатковий
+        // TODO
+
         //Call Insert
         boolean insertRes = DAOObjects.daoAddress.insert(addressIns);
         if (insertRes) {
@@ -101,7 +85,7 @@ public class AddressPersonAddServlet extends HttpServlet {
         } else {
             System.out.println("Помилка додавання! Insert SQL mistake!!!");
             request.setAttribute("error", ContactMessages.MESSAGE02.getText());
-            request.setAttribute("address", address);
+            request.setAttribute("addr", addressIns);
             request.setAttribute("owner", owner);
             String path = "/views/addresses/address.jsp";
             ServletContext servletContext = getServletContext();
