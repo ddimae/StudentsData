@@ -58,7 +58,7 @@ public class EmailChangePriorServlet extends HttpServlet {
                 return;
             }
         }
-        //Встановлюємо поточний телефон як основний
+        //Встановлюємо поточний email як основний
         updateRes = DAOObjects.daoEmail.update(email.getId(), email);
         if (updateRes) {
             //back to emails_persons

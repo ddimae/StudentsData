@@ -30,7 +30,7 @@
 
     <c:if test="${phone.id > 0}">
         <form style="alignment: center" action="delete_phone" method="post" class="groupTable">
-            <table border="2" id="students_table">
+            <table border="2">
                 <tr>
                     <th class="form-field-label">Телефон:</th>
                     <td>

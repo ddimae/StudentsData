@@ -23,14 +23,11 @@
         <li><h4>Редагування номеру телефону</h4></li>
     </div>
 
-    <form <c:if test="${phone.id==0}">action="add_phone"</c:if>
-         <c:if test="${phone.id>0}">action="edit_phone"</c:if> method="post"
-         class="groupTable"
-    >
+    <form action="add_phone" method="post" class="groupTable">
         <input type="hidden" name="id_phone" value="${phone.id}" required>
         <input type="hidden" name="id_owner" value="${owner.id}" required>
 
-        <table border="2" id="students_table">
+        <table border="2" >
             <tr>
                 <th for="phone_number" class="form-field-label">Номер телефону</th>
                 <td>

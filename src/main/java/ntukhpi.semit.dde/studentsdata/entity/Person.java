@@ -88,6 +88,22 @@ public abstract class Person { //
         addresses.remove(address);
     }
 
+    public Address getCurrentAddress() {
+        Address res = null;
+        for (Map.Entry<Address,Boolean> e: addresses.entrySet()) {
+            if (e.getValue())
+            res = e.getKey();
+        }
+        return res;
+    }
+
+    public Boolean getCurrent(Address address) {
+       return addresses.get(address);
+    }
+    public void setCurrent(Address address, Boolean newValue) {
+        addresses.put(address,newValue);
+    }
+
     //for contacts
     public Set<Contact> getContacts() {
         return Collections.unmodifiableSet(contacts);

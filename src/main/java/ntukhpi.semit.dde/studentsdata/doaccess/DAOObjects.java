@@ -9,6 +9,7 @@ public class DAOObjects {
     public static DAOContactsHBN daoContact = new DAOContactsHBN();
     public static DAOPhonesHBN daoPhone = new DAOPhonesHBN();
     public static DAOEmailsHBN daoEmail = new DAOEmailsHBN();
+    public static DAOAddressesHBN daoAddress = new DAOAddressesHBN();
     //Output list to console
     public static void outputList(List list,String label) {
         System.out.println(label);
