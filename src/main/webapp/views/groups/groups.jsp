@@ -17,11 +17,12 @@
         <li><input class="header-search" type="text" placeholder="Введіть номер групи" id="search-text" onkeyup="tableSearch()"></li>
 
         <form enctype="multipart/form-data"
-              action="${pageContext.request.contextPath}/load_students"
+              action="${pageContext.request.contextPath}/groups/load_students"
               method="post"
         >
-            <input class="custom-file-input" type="file" accept=".xlsx"/>
-            <button  class="button1" onclick="sortTable()"> Завантажити дані про групу </button>
+<%--            class="custom-file-input"--%>
+            <input  type="file" name="file" accept=".xlsx"/>
+            <button  class="button1"> Завантажити дані про групу </button>
         </form>
     </div>
 

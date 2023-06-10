@@ -21,6 +21,9 @@ import java.util.List;
 import static ntukhpi.semit.dde.studentsdata.files.ExcelUtilities.STUDENTSDATA_FILES_FOLDER;
 
 @WebServlet("/groups/load_students")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class GroupUploadServlet extends HttpServlet {
 
     public static List<AcademicGroup> groups = new ArrayList<>();
@@ -34,10 +37,6 @@ public class GroupUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         System.out.println("GroupUploadServlet#doPost");
-        Long idGroup = Long.parseLong(request.getParameter("id"));
-        AcademicGroup groupFromDB = DAOObjects.daoAcademicGroup.findById(idGroup);
-        String agName = groupFromDB.getGroupName();
-        String fullfilename = ExcelUtilities.saveToWBExcelWithName(STUDENTSDATA_FILES_FOLDER,agName, groupFromDB, "F1");
         try {
             //https://o7planning.org/11069/uploading-and-downloading-files-stored-to-hard-drive-with-java-servlet
             // Gets absolute path to root directory of web app.
@@ -59,48 +58,47 @@ public class GroupUploadServlet extends HttpServlet {
             }
 
             // Part list (multi files).
+            String filePath = null;
             for (Part part : request.getParts()) {
                 String fileName = extractFileName(part);
                 if (fileName != null && fileName.length() > 0) {
-                    String filePath = fullSavePath + File.separator + fileName;
+                    filePath = fullSavePath + File.separator + fileName;
                     System.out.println("Write attachment to file: " + filePath);
                     // Write to file
                     part.write(filePath);
                 }
             }
-            // Upload successfully!.
-            response.sendRedirect(request.getContextPath() + "/uploadFileResults");
-        } catch (Exception e) {
-            //e.printStackTrace();
-            request.setAttribute("errorMessage", "Error: " + e.getMessage());
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/jsps/uploadFile.jsp");
-            dispatcher.forward(request, response);
+            AcademicGroup newGroup = ExcelUtilities.readFromWBExcelFullToClearDB(filePath);
+            if (newGroup != null) {
+                boolean saveToDBOk = DAOObjects.daoAcademicGroup.saveAcademicGroupToDB(newGroup);
+                if (saveToDBOk) {
+                    System.out.println("AcademicGroup "+newGroup.getGroupName()+"was read from Excel and was saved in DB");
+                    System.out.println(newGroup.toStringWithGrouplist());
+                }
+            } else {
+                System.out.println("No AcademicGroup to save");
+            }
+
+        } finally {
+            /// Upload successfully!.
+            response.sendRedirect(request.getContextPath() + "/groups");
         }
-        request.setAttribute("groups", groups);
-        String path = "/views/groups/groups.jsp";
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-        requestDispatcher.forward(request, response);
+
     }
 
     private String extractFileName(Part part) {
-        // form-data; name="file"; filename="C:\file1.zip"
-        // form-data; name="file"; filename="C:\Note\file2.zip"
         String contentDisp = part.getHeader("content-disposition");
-        // String[] items = contentDisp.split(";");
-        // for (String s : items) {
-        if (contentDisp.trim().startsWith("filename")) {
-            // C:\file1.zip
-            // C:\Note\file2.zip
-            String clientFileName = contentDisp.substring(contentDisp.indexOf("=") + 2, contentDisp.length() - 1);
-            clientFileName = clientFileName.replace("\\", "/");
-            int i = clientFileName.lastIndexOf('/');
-            // file1.zip
-            // file2.zip
-            return clientFileName.substring(i + 1);
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                String clientFileName = s.substring(s.indexOf("=") + 2, s.length() - 1);
+                clientFileName = clientFileName.replace("\\", "/");
+                int i = clientFileName.lastIndexOf('/');
+                return clientFileName.substring(i + 1);
+            }
         }
-        // }
         return null;
     }
+
 
 }

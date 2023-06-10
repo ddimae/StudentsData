@@ -60,14 +60,6 @@ public class TestStudents {
     }
 
     @Test
-    void ShowExpert() {
-        AcademicGroup grToFind = new AcademicGroup("KН-221в");
-        AcademicGroup mygroup  = DAOObjects.daoAcademicGroup.findByKey(grToFind);
-        mygroup.showInfo();
-
-    }
-
-    @Test
     void TestDeleteStudentsPhones() {
         Student stud = new Student("КОСТОМАРОВ", "Євгеній", "Ігорович");
         DAOObjects.daoStudent.deletePhonesNumberByOwner(stud);
