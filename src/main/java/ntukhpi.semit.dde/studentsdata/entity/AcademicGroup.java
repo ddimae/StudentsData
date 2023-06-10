@@ -120,22 +120,6 @@ public class AcademicGroup {
         return Objects.hash(groupName);
     }
 
-    public void printInfo() {
-        System.out.println(this.getGroupName()+" "+this.getLanguage());
-        System.out.println("Students in");
-        for (Student stud:
-                this.getStudentsList()) {
-            stud.showInfo();
-        }
-    }
-
-    public void showInfo() {
-        System.out.println("Students list: "+ groupName);
-        for (Student st: getStudentsList()) {
-            st.showInfo2();
-        }
-    }
-
     public boolean isHead(Student student) {
         if (headStudent== null) {
             return false;
